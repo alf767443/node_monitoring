@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 
-# Global imports
-from GlobalSets.util import msg_to_document
-
 # Import nodes.py
 from nodes import NODES
 from config import PATH, CLIENT
 
 # Import librarys
-import rospy, bson, os
+import rospy, bson, os, genpy
 from pymongo import errors as pymongo_erros
 from fractions import Fraction
 from datetime import datetime
@@ -87,7 +84,6 @@ class listenNodes:
             return True
         except Exception as e:
                 rospy.logerr("Error to create the timer\n" + e)
-                print(e)
                 return False
     
 # Create a file that contains the information for storage
@@ -143,6 +139,45 @@ class listenNodes:
         except Exception as e:
             rospy.logerr("Error when update to cloud\n" + e)
             return False
+        
+# Convert message to a python document
+    def msg2document(self, msg):
+        d = {}
+        slot_types = []
+        if hasattr(msg,'_slot_types'):
+            slot_types = msg._slot_types
+        else:
+            slot_types = [None] * len(msg.__slots__)
+        for (attr, type) in zip(msg.__slots__, slot_types):
+            d[attr] = self.sanitize_value(attr, getattr(msg, attr), type)
+        return d
+    def sanitize_value(self, attr, v, type):
+        if isinstance(v, str):
+            if type == 'uint8[]':
+                v = Binary(v)
+            else:
+                try:
+                    v = str(v)
+                except UnicodeDecodeError as e:
+                    v = Binary(v)
+            return v
+        if isinstance(v, rospy.Message):
+            return msg_to_document(v)
+        elif isinstance(v, genpy.rostime.Time):
+            return msg_to_document(v)
+        elif isinstance(v, genpy.rostime.Duration):
+            return msg_to_document(v)
+        elif isinstance(v, list):
+            result = []
+            for t in v:
+                if hasattr(t, '_type'):
+                    result.append(self.sanitize_value(None, t, t._type))
+                else:
+                    result.append(self.sanitize_value(None, t, None))
+            return result
+        else:
+            return v
+
 
 if __name__ == '__main__':
     try:

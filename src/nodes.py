@@ -17,6 +17,18 @@ from dynamic_reconfigure.msg import ConfigDescription
 # Modifications
 from tf.transformations import euler_from_quaternion
 
+
+def q2e(data) -> None:
+    orientation = data['pose']['pose']['orientation']
+    (raw, pitch, yaw) = euler_from_quaternion([orientation['x'], orientation['y'], orientation['z'], orientation['w']])
+    orientation = {
+        'raw'     :  raw,
+        'pitch'   : pitch,
+        'yaw'     : yaw,
+    }
+    data.update({'pose': {'pose': {'position': data['pose']['pose']['position'], 'orientation': orientation}}})
+
+
 NODES = [
     #############################################################
     # {
@@ -31,154 +43,77 @@ NODES = [
     #     }
     # }
     #############################################################
-    
+
     # Odometry
     {
         'node'    : 'odom',
         'msg'     : Odometry,
-        'rate'    : 1,
+        'rate'    : 0.2,
         'callback': q2e,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': col.PositionOdom
+            'collection': 'Position_Odometry'
+        }
+    }, 
+    # Battery
+    {
+        'node'    : 'battery_state',
+        'msg'     : BatteryState,
+        'rate'    : 0.2,
+        'callback': None,
+        'dataPath': {
+            'dataSource': DATASOURCE, 
+            'dataBase'  : DATALAKE,
+            'collection': 'Battery'
         }
     }, 
     # LiDAR
     {
         'node'    : 'scan',
         'msg'     : LaserScan,
-        'rate'    : 1,
+        'rate'    : 0.2,
         'callback': None,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': col.LiDAR
+            'collection': 'LiDAR'
         }
     }, 
     # AMCL_pos
     {
         'node'    : 'amcl_pose',
         'msg'     : PoseWithCovarianceStamped,
-        'rate'    : 1,
+        'rate'    : 0.2,
         'callback': q2e,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': col.PositionAMCL
+            'collection': 'Position_AMCL'
         }
     }, 
     # Motor state
     {
         'node'    : 'motor_state',
         'msg'     : MotorState,
-        'rate'    : 1,
+        'rate'    : 0.2,
         'callback': None,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': col.Motor
+            'collection': 'Motor'
         }
     }, 
     # Occupancy map
     {
         'node'    : 'map',
         'msg'     : OccupancyGrid,
-        'rate'    : 1,
+        'rate'    : 0.01,
         'callback': None,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': col.Occupancy
+            'collection': 'Occupancy'
         }
-    },
-    # Battery
-    {
-        'node'    : 'battery_state',
-        'msg'     : BatteryState,
-        'rate'    : 1,
-        'callback': None,
-        'dataPath': {
-            'dataSource': DATASOURCE, 
-            'dataBase'  : DATALAKE,
-            'collection': col.Battery
-        }
-    }, 
-    
+    },    
 ]
-
-
-DIAGNOSTICS_NODES = [
-    # {
-    #     'node'    : --The node address (diagnostics),
-    #     'msg'     : --The type of message
-    #     'rate'    : --Listen rate
-    #     'dataPath': {
-    #         'dataSource': --Name of data source in MongoDB
-    #         'dataBase'  : --Name of data base in MongoDB
-    #         'collection': --Name of collection in MongoDB
-    #     }
-    # }
-    # {
-    #     'node'    : 'diagnostics',
-    #     'msg'     : DiagnosticArray,
-    #     'rate'    : 1,
-    #     'dataPath': {
-    #         'dataSource': DATASOURCE, 
-    #         'dataBase'  : DATALAKE,
-    #         'collection': col.Diagnostics
-    #     }
-    # }, 
-    {
-        'node'    : 'diagnostics_agg',
-        'msg'     : DiagnosticArray,
-        'rate'    : 1,
-        'dataPath': {
-            'dataSource': DATASOURCE, 
-            'dataBase'  : DATALAKE,
-            'collection': col.Diagnostics
-        }
-    }, 
-    # {
-    #     'node'    : 'motor_node/parameter_descriptions',
-    #     'msg'     : ConfigDescription,
-    #     'rate'    : 1,
-    #     'dataPath': {
-    #         'dataSource': DATASOURCE, 
-    #         'dataBase'  : DATALAKE,
-    #         'collection': col.Diagnostics
-    #     }
-    # }, 
-    # {
-    #     'node'    : 'ubiquity_velocity_controller/parameter_descriptions',
-    #     'msg'     : ConfigDescription,
-    #     'rate'    : 1,
-    #     'dataPath': {
-    #         'dataSource': DATASOURCE, 
-    #         'dataBase'  : DATALAKE,
-    #         'collection': col.Diagnostics
-    #     }
-    # }, 
-    # {
-    #     'node'    : 'urg_node/parameter_descriptions',
-    #     'msg'     : ConfigDescription,
-    #     'rate'    : 1,
-    #     'dataPath': {
-    #         'dataSource': DATASOURCE, 
-    #         'dataBase'  : DATALAKE,
-    #         'collection': col.Diagnostics
-    #     }
-    # }, 
-]
-
-
-
-def q2e(data) -> None:
-    orientation = data['pose']['pose']['orientation']
-    (raw, pitch, yaw) = euler_from_quaternion([orientation['x'], orientation['y'], orientation['z'], orientation['w']])
-    orientation = {
-        'raw'     :  raw,
-        'pitch'   : pitch,
-        'yaw'     : yaw,
-    }
-    data.update({'pose': {'pose': {'position': data['pose']['pose']['position'], 'orientation': orientation}}})
