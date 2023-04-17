@@ -1,6 +1,4 @@
-# Global imports
-from GlobalSets.Mongo import DataSource as Source, DataBases as db, Collections as col
-
+# Import configurations
 from config import DATALAKE, DATASOURCE
 
 # Messages
@@ -11,23 +9,28 @@ from sensor_msgs.msg import BatteryState
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from ubiquity_motor.msg import MotorState
 
-from diagnostic_msgs.msg import DiagnosticArray
-from dynamic_reconfigure.msg import ConfigDescription
-
-# Modifications
+# Other imports
 from tf.transformations import euler_from_quaternion
 
+# ============== Callback function ============== #
 
+# Quaternion to euler callback
 def q2e(data) -> None:
+    # Get orientation
     orientation = data['pose']['pose']['orientation']
+    # Convert
     (raw, pitch, yaw) = euler_from_quaternion([orientation['x'], orientation['y'], orientation['z'], orientation['w']])
+    # Add in a dictionary
     orientation = {
         'raw'     :  raw,
         'pitch'   : pitch,
         'yaw'     : yaw,
     }
+    # Update the data to storage
     data.update({'pose': {'pose': {'position': data['pose']['pose']['position'], 'orientation': orientation}}})
 
+
+# ============== Nodes ============== #
 
 NODES = [
     #############################################################
