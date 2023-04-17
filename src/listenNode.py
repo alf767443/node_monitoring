@@ -11,6 +11,7 @@ import rospy, bson, os, genpy
 from pymongo import errors as pymongo_erros
 from fractions import Fraction
 from datetime import datetime
+
 class listenNodes:
     def __init__(self, NODES) -> None:
         # Starts unique node in the ROS core with the name listenNode

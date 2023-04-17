@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Import configurations
 from config import DATALAKE, DATASOURCE
 
