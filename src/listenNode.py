@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
-# Import nodes.py
+# Import nodes
 from nodes import NODES
+
+# Import config
 from config import PATH, CLIENT
 
 # Import librarys
