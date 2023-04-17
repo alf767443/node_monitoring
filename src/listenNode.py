@@ -132,7 +132,7 @@ class listenNodes:
             test = dataPath['collection']
         except Exception as e:
             rospy.logerr("Error in storage data path\n" + e)
-            return False
+            return True
         try:
             # Try send to the cloud
             return CLIENT[dataPath['dataBase']][dataPath['collection']].insert_one(content).acknowledged
