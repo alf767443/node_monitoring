@@ -64,8 +64,11 @@ class listenNodes:
             rospy.logerr("Error in callback function")
             rospy.logerr(e)
         try:
-            if not self.send2cloud(dataPath=args['dataPath'], content=data):
-                # If can't send, create a file
+            if CLIENT.is_primary:
+                if not self.send2cloud(dataPath=args['dataPath'], content=data):
+                    # If can't send, create a file
+                    self.createFile(dataPath=args['dataPath'], content=data)     
+            else:
                 self.createFile(dataPath=args['dataPath'], content=data)     
         except pymongo_erros.ConnectionFailure:
             # Create the storage file
