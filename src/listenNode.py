@@ -64,15 +64,12 @@ class listenNodes:
             rospy.logerr("Error in callback function")
             rospy.logerr(e)
         try:
-            # If MongoDB is available
-            if CLIENT.is_primary:
-                # Send to cloud
-                if not self.send2cloud(dataPath=args['dataPath'], content=data):
-                    # If can't send, create a file
-                    self.createFile(dataPath=args['dataPath'], content=data)     
-            else:
-                # Create the storage file
-                self.createFile(dataPath=args['dataPath'], content=data) 
+            if not self.send2cloud(dataPath=args['dataPath'], content=data):
+                # If can't send, create a file
+                self.createFile(dataPath=args['dataPath'], content=data)     
+        except pymongo.errors.ServerSelectionTimeoutError:
+            # Create the storage file
+            self.createFile(dataPath=args['dataPath'], content=data)
         except Exception as e:
             rospy.logerr("Error with MongoDB client")
             rospy.logerr(e)
