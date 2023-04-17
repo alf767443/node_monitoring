@@ -70,7 +70,7 @@ class listenNodes:
                     self.createFile(dataPath=args['dataPath'], content=data)     
             else:
                 self.createFile(dataPath=args['dataPath'], content=data)     
-        except pymongo_erros.ConnectionFailure:
+        except (pymongo_erros.ConnectionFailure, pymongo_erros.ServerSelectionTimeoutError):
             # Create the storage file
             self.createFile(dataPath=args['dataPath'], content=data)
         except Exception as e:

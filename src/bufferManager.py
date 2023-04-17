@@ -18,12 +18,20 @@ class bufferManager():
         # While the ROS core is running
         while not rospy.is_shutdown():
             # If have files to send and the cloud is available
-            if len(os.listdir(path=PATH)) > 0 and CLIENT.is_primary:
-                # Try to send the files
-                self.getFiles()
-            else:
+            try:
+                if len(os.listdir(path=PATH)) > 0 and CLIENT.is_primary:
+                    # Try to send the files
+                    self.getFiles()
+                else:
+                    # Wait 10 seconds for the next check
+                    for i in range(0,10): rate.sleep()    
+            except (pymongo_erros.ConnectionFailure, pymongo_erros.ServerSelectionTimeoutError):
                 # Wait 10 seconds for the next check
                 for i in range(0,10): rate.sleep() 
+            except Exception as e:
+                rospy.logerr("Error on file queue")
+                rospy.logerr(e)
+            
 
 # Get the files in PATH for send to cloud
     def getFiles(self):
