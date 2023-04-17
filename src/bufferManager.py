@@ -18,7 +18,7 @@ class bufferManager():
         # While the ROS core is running
         while not rospy.is_shutdown():
             # If have files to send and the cloud is available
-            if os.listdir(path=PATH) and CLIENT.is_primary:
+            if os.listdir(path=PATH) > 0 and CLIENT.is_primary:
                 # Try to send the files
                 self.getFiles()
             else:
