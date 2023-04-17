@@ -53,9 +53,7 @@
   <depend>pymongo</depend>
   <depend>bson</depend>
   <depend>fractions</depend>
-  <depend>datetime</depend>
-  <depend>__future__</depend>
-  <depend>std_srvs</depend>  
+  <depend>datetime</depend>  
   <build_depend>rospy</build_depend>
   <build_export_depend>rospy</build_export_depend>
   <exec_depend>rospy</exec_depend>
