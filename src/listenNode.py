@@ -67,7 +67,7 @@ class listenNodes:
             if not self.send2cloud(dataPath=args['dataPath'], content=data):
                 # If can't send, create a file
                 self.createFile(dataPath=args['dataPath'], content=data)     
-        except pymongo.errors.ServerSelectionTimeoutError:
+        except pymongo_erros.ConnectionFailure:
             # Create the storage file
             self.createFile(dataPath=args['dataPath'], content=data)
         except Exception as e:
