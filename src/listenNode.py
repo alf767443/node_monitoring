@@ -69,7 +69,7 @@ class listenNodes:
             else:
                 # Create the storage file
                 self.createFile(dataPath=args['dataPath'], content=data) 
-        except:
+        except Exception as e:
             rospy.logerr("Error with MongoDB client\n" + e)
         # Wait the set time
         for i in range(0,args['ticks']): args['rate'].sleep()
