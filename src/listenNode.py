@@ -16,6 +16,7 @@ class listenNodes:
     def __init__(self, NODES) -> None:
         # Starts unique node in the ROS core with the name listenNode
         rospy.init_node('listenNodes', anonymous=False)
+        rospy.loginfo("Listen ROS nodes started")
         # Reads out the list of nodes present in the file nodes.py
         self.NODES = NODES
         # Set up the subscribers for each item in NODES

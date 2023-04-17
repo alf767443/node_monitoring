@@ -12,6 +12,7 @@ class bufferManager():
     def __init__(self) -> None:
         # Starts unique node in the ROS core with the name bufferManager
         rospy.init_node('bufferManager', anonymous=False)
+        rospy.loginfo("Buffer manager started")
         # Node rate
         rate = rospy.Rate(1)
         # While the ROS core is running
@@ -78,7 +79,6 @@ class bufferManager():
 
 if __name__ == '__main__':
     try:
-        print("Is sync?")
         bufferManager()
     except rospy.ROSInterruptException:
         pass
