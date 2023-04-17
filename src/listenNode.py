@@ -46,7 +46,7 @@ class listenNodes:
     def callback(self, msg, args):
         try:
             # Gets the message data
-            data = msg_to_document(msg=msg)
+            data = self.msg2document(msg=msg)
             # Adds the date 
             data.update({'dateTime': datetime.now()})
         except Exception as e:
@@ -165,11 +165,11 @@ class listenNodes:
                     v = Binary(v)
             return v
         if isinstance(v, rospy.Message):
-            return msg_to_document(v)
+            return self.msg2document(v)
         elif isinstance(v, genpy.rostime.Time):
-            return msg_to_document(v)
+            return self.msg2document(v)
         elif isinstance(v, genpy.rostime.Duration):
-            return msg_to_document(v)
+            return self.msg2document(v)
         elif isinstance(v, list):
             result = []
             for t in v:
