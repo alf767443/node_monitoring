@@ -27,7 +27,8 @@ class listenNodes:
                 # Creates the subscriber
                 self.newSubscriber(node=node)
             except Exception as e:
-                rospy.logerr("Error in node.py error\n" + e)
+                rospy.logerr("Error in node.py error")
+                rospy.logerr(e)
         # Keeps the node active
         rospy.spin()
                
@@ -40,7 +41,8 @@ class listenNodes:
             rospy.loginfo("Subscriber to the node /" + node['node'] + " create")
             return True
         except Exception as e:
-            rospy.logerr("Error in the creation of subscriber\n" + e)
+            rospy.logerr("Error in the creation of subscriber")
+            rospy.logerr(e)
             return False
         
 # Callback to the node
@@ -51,14 +53,16 @@ class listenNodes:
             # Adds the date 
             data.update({'dateTime': datetime.now()})
         except Exception as e:
-            rospy.logerr("Error to convert the mensage\n" + e)
+            rospy.logerr("Error to convert the mensage")
+            rospy.logerr(e)
         try:
             # If the node has a callback function it executes
             if args['callback'] != None:
                 # Execute the callback function
                 args['callback'](data)
         except Exception as e:
-            rospy.logerr("Error in callback function\n" + e)
+            rospy.logerr("Error in callback function")
+            rospy.logerr(e)
         try:
             # If MongoDB is available
             if CLIENT.is_primary:
@@ -70,7 +74,9 @@ class listenNodes:
                 # Create the storage file
                 self.createFile(dataPath=args['dataPath'], content=data) 
         except Exception as e:
-            rospy.logerr("Error with MongoDB client\n" + e)
+            rospy.logerr("Error with MongoDB client")
+            rospy.logerr(e)
+            
         # Wait the set time
         for i in range(0,args['ticks']): args['rate'].sleep()
 
@@ -87,8 +93,9 @@ class listenNodes:
             rospy.logdebug("\n\tNode: " + node['node'] + "\n\trate: " + str(rate) + "\n\tticks: " + str(ticks))
             return True
         except Exception as e:
-                rospy.logerr("Error to create the timer\n" + e)
-                return False
+            rospy.logerr("Error to create the timer")
+            rospy.logerr(e)
+            return False
     
 # Create a file that contains the information for storage
     def createFile(self, dataPath: bson, content: bson):
@@ -98,7 +105,8 @@ class listenNodes:
             test = dataPath['dataBase']
             test = dataPath['collection']
         except Exception as e:
-            rospy.logerr("Error in storage data path\n" + e)
+            rospy.logerr("Error in storage data path")
+            rospy.logerr(e)
             return False
         try:
             # Create data string
@@ -121,7 +129,8 @@ class listenNodes:
             file.close()
             return True
         except Exception as e:
-            rospy.logerr("Error to create the file\n" + e)
+            rospy.logerr("Error to create the file")
+            rospy.logerr(e)
             return False
 
 # Send the data to MongoDB cloud
@@ -132,7 +141,8 @@ class listenNodes:
             test = dataPath['dataBase']
             test = dataPath['collection']
         except Exception as e:
-            rospy.logerr("Error in storage data path\n" + e)
+            rospy.logerr("Error in storage data path")
+            rospy.logerr(e)
             return True
         try:
             # Try send to the cloud
@@ -141,7 +151,8 @@ class listenNodes:
             # If the register duplicate
             return True
         except Exception as e:
-            rospy.logerr("Error when update to cloud\n" + e)
+            rospy.logerr("Error when update to cloud")
+            rospy.logerr(e)
             return False
         
 # Convert message to a python document

@@ -31,7 +31,8 @@ class bufferManager():
             # Get all files in the directory
             files = sorted(os.listdir(path=PATH), reverse=True)
         except Exception as e:
-            rospy.logerr("Error on get the file list\n" + e)
+            rospy.logerr("Error on get the file list")
+            rospy.logerr(e)
         for file in files:
             try:
                 # Try to open the file
@@ -39,7 +40,8 @@ class bufferManager():
                 # Decode to BSON
                 data = bson.BSON.decode(get.read())
             except bson_errors.BSONError:
-                rospy.logerr("Error on file decode\n" + e)
+                rospy.logerr("Error on file decode")
+                rospy.logerr(e)
                 get.close()
                 self.rm(file=file)
             # Try send to the cloud
@@ -53,7 +55,8 @@ class bufferManager():
             os.remove(PATH+file)
             return True
         except Exception as e:
-            rospy.logerr("Error on the file remove\n" + e)
+            rospy.logerr("Error on the file remove")
+            rospy.logerr(e)
             return False
 
 # Send the data to MongoDB cloud
@@ -64,7 +67,8 @@ class bufferManager():
             test = dataPath['dataBase']
             test = dataPath['collection']
         except Exception as e:
-            rospy.logerr("Error in storage data path\n" + e)
+            rospy.logerr("Error in storage data path")
+            rospy.logerr(e)
             return True
         try:
             # Try send to the cloud
@@ -73,7 +77,8 @@ class bufferManager():
             # If the register duplicate
             return True
         except Exception as e:
-            rospy.logerr("Error when update to cloud\n" + e)
+            rospy.logerr("Error when update to cloud")
+            rospy.logerr(e)
             return False
 
 
