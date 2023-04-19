@@ -80,7 +80,9 @@ class bufferManager():
             return True
         try:
             # Try send to the cloud
-            return CLIENT[dataPath['dataBase']][dataPath['collection']].insert_one(content).acknowledged
+            if not isinstance(content, list):
+                content = [content]
+            return CLIENT[dataPath['dataBase']][dataPath['collection']].insert_many(content).acknowledged
         except pymongo_erros.DuplicateKeyError:
             # If the register duplicate
             return True
