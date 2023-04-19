@@ -5,11 +5,13 @@ from config import DATALAKE, DATASOURCE, PATH
 
 # Messages
 from nav_msgs.msg import Odometry
+from sensor_msgs.msg import Range
 from nav_msgs.msg import OccupancyGrid
 from sensor_msgs.msg import LaserScan
 from sensor_msgs.msg import BatteryState
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from ubiquity_motor.msg import MotorState
+from diagnostic_msgs.msg import DiagnosticArray
 
 # Other imports
 import os, bson
@@ -42,7 +44,7 @@ def diag(data) -> None:
     # Create directory if it don't exist
     _diag = bson.BSON.decode(file.read())
     diag = data['status']
-    # print(data)
+    _data = {}
     for diagnostics in diag:
         ## Verifica se existe a chave
         try:
@@ -51,11 +53,7 @@ def diag(data) -> None:
             _diag.update({diagnostics['name']: None})
         if (_diag[diagnostics['name']] != diagnostics['level']):
             _diag.update({diagnostics['name']: diagnostics['level']})
-            # diagnostics.update({'dateTime': datetime.now()})
-            # createFile(dataPath=args['dataPath'], content=diagnostics)
-    
-
-
+    data = (None)
 
 # ============== Nodes ============== #
 
@@ -138,7 +136,7 @@ NODES = [
     {
         'node'    : 'map',
         'msg'     : OccupancyGrid,
-        'rate'    : 0.01,
+        'rate'    : 0.1,
         'callback': None,
         'dataPath': {
             'dataSource': DATASOURCE, 
@@ -146,5 +144,26 @@ NODES = [
             'collection': 'Occupancy'
         }
     },    
-
+    # Diagnostic
+    {
+        'node'    : 'diagnostics_agg',
+        'msg'     : DiagnosticArray,
+        'rate'    : 0.1,
+        'dataPath': {
+            'dataSource': DATASOURCE, 
+            'dataBase'  : DATALAKE,
+            'collection': 'Diagnostic'
+        }
+    }, 
+    # Sonar
+    {
+        'node'    : 'sonars',
+        'msg'     : Range,
+        'rate'    : 1,
+        'dataPath': {
+            'dataSource': DATASOURCE, 
+            'dataBase'  : DATALAKE,
+            'collection': 'Sonar'
+        }
+    }, 
 ]

@@ -63,19 +63,20 @@ class listenNodes:
         except Exception as e:
             rospy.logerr("Error in callback function")
             rospy.logerr(e)
-        try:
-            if CLIENT.is_primary:
-                if not self.send2cloud(dataPath=args['dataPath'], content=data):
-                    # If can't send, create a file
+        if isinstance(data, (dict, list)):
+            try:
+                if CLIENT.is_primary:
+                    if not self.send2cloud(dataPath=args['dataPath'], content=data):
+                        # If can't send, create a file
+                        self.createFile(dataPath=args['dataPath'], content=data)     
+                else:
                     self.createFile(dataPath=args['dataPath'], content=data)     
-            else:
-                self.createFile(dataPath=args['dataPath'], content=data)     
-        except (pymongo_erros.ConnectionFailure, pymongo_erros.ServerSelectionTimeoutError):
-            # Create the storage file
-            self.createFile(dataPath=args['dataPath'], content=data)
-        except Exception as e:
-            rospy.logerr("Error with MongoDB client")
-            rospy.logerr(e)
+            except (pymongo_erros.ConnectionFailure, pymongo_erros.ServerSelectionTimeoutError):
+                # Create the storage file
+                self.createFile(dataPath=args['dataPath'], content=data)
+            except Exception as e:
+                rospy.logerr("Error with MongoDB client")
+                rospy.logerr(e)
             
         # Wait the set time
         for i in range(0,args['ticks']): args['rate'].sleep()
