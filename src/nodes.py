@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Import configurations
-from config import DATALAKE, DATASOURCE
+from config import DATALAKE, DATASOURCE, PATH
 
 # Messages
 from nav_msgs.msg import Odometry
@@ -12,9 +12,11 @@ from geometry_msgs.msg import PoseWithCovarianceStamped
 from ubiquity_motor.msg import MotorState
 
 # Other imports
+import os, bson
 from tf.transformations import euler_from_quaternion
 
 # ============== Callback function ============== #
+# The function should always only have one variable 'data', where 'data' is the received message converted to a document
 
 # Quaternion to euler callback
 def q2e(data) -> None:
@@ -30,6 +32,29 @@ def q2e(data) -> None:
     }
     # Update the data to storage
     data.update({'pose': {'pose': {'position': data['pose']['pose']['position'], 'orientation': orientation}}})
+
+def diag(data) -> None:
+    path =  PATH + "/temp/diag.bjson"
+    if not os.path.exists(path=path):
+        os.chmod
+        os.makedirs(name=path)
+    file = open(path, 'w+b')
+    # Create directory if it don't exist
+    _diag = bson.BSON.decode(file.read())
+    diag = data['status']
+    # print(data)
+    for diagnostics in diag:
+        ## Verifica se existe a chave
+        try:
+            _diag[diagnostics['name']]
+        except:
+            _diag.update({diagnostics['name']: None})
+        if (_diag[diagnostics['name']] != diagnostics['level']):
+            _diag.update({diagnostics['name']: diagnostics['level']})
+            # diagnostics.update({'dateTime': datetime.now()})
+            # createFile(dataPath=args['dataPath'], content=diagnostics)
+    
+
 
 
 # ============== Nodes ============== #
@@ -121,4 +146,5 @@ NODES = [
             'collection': 'Occupancy'
         }
     },    
+
 ]
