@@ -122,7 +122,6 @@ class listenNodes:
                 os.chmod
                 os.makedirs(name=PATH)
             # Create file
-            file = open(file=fullPath, mode='a')
             file = open(file=fullPath, mode='wb')
             # Fill file
             file.write(data)
@@ -146,7 +145,9 @@ class listenNodes:
             return True
         try:
             # Try send to the cloud
-            return CLIENT[dataPath['dataBase']][dataPath['collection']].insert_one(content).acknowledged
+            if not isinstance(content, list):
+                content = [content]
+            return CLIENT[dataPath['dataBase']][dataPath['collection']].insert_many(content).acknowledged
         except pymongo_erros.DuplicateKeyError:
             # If the register duplicate
             return True
