@@ -149,6 +149,7 @@ NODES = [
         'node'    : 'diagnostics_agg',
         'msg'     : DiagnosticArray,
         'rate'    : 0.1,
+        'callback': None,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
@@ -160,6 +161,7 @@ NODES = [
         'node'    : 'sonars',
         'msg'     : Range,
         'rate'    : 1,
+        'callback': None,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
