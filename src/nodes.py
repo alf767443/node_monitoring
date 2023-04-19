@@ -43,17 +43,17 @@ def diag(data) -> None:
     file = open(path, 'w+b')
     # Create directory if it don't exist
     _diag = bson.BSON.decode(file.read())
-    diag = data['status']
+    # diag = data['status']
     _data = {}
-    for diagnostics in diag:
-        ## Verifica se existe a chave
-        try:
-            _diag[diagnostics['name']]
-        except:
-            _diag.update({diagnostics['name']: None})
-        if (_diag[diagnostics['name']] != diagnostics['level']):
-            _diag.update({diagnostics['name']: diagnostics['level']})
-    data = (None)
+    # for diagnostics in diag:
+    #     ## Verifica se existe a chave
+    #     try:
+    #         _diag[diagnostics['name']]
+    #     except:
+    #         _diag.update({diagnostics['name']: None})
+    #     if (_diag[diagnostics['name']] != diagnostics['level']):
+    #         _diag.update({diagnostics['name']: diagnostics['level']})
+    data = None
 
 # ============== Nodes ============== #
 
@@ -161,7 +161,7 @@ NODES = [
         'node'    : 'sonars',
         'msg'     : Range,
         'rate'    : 1,
-        'callback': None,
+        'callback': diag,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
