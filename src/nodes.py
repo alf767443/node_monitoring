@@ -36,11 +36,12 @@ def q2e(data) -> None:
     data.update({'pose': {'pose': {'position': data['pose']['pose']['position'], 'orientation': orientation}}})
 
 def diag(data) -> None:
-    path =  PATH + "/temp/diag.bjson"
+    path =  PATH + "temp/"
+    file = "diag.bjson"
     if not os.path.exists(path=path):
         os.chmod
         os.makedirs(name=path)
-    file = open(path, 'w+b')
+    file = open(file=path + file, mode='w+b')
     # Create directory if it don't exist
     _diag = bson.BSON.decode(file.read())
     # diag = data['status']
