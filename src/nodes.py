@@ -46,6 +46,7 @@ def diag(data) -> None:
     # Create directory if it don't exist
     try:
         _diag = bson.BSON.decode(file.read())
+        _diag = _diag['status']
     except:
         _diag = {}
         pass
@@ -63,7 +64,7 @@ def diag(data) -> None:
             _data.append(diagnostics)
     if len(_data) > 0:
         file.truncate(0)
-        file.write(bson.encode(document=diag))
+        file.write(bson.encode(document={data}))
     else:
         _data = None
     file.close()
