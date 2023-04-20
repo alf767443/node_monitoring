@@ -47,7 +47,7 @@ def diag(data) -> None:
     try:
         _diag = bson.BSON.decode(file.read())
     except:
-        _diag = [{}]
+        _diag = {}
         pass
     diag = data['status']
     _data = []
@@ -61,10 +61,11 @@ def diag(data) -> None:
             _diag.update({diagnostics['name']: diagnostics['level']})
             diagnostics.update({'dateTime': datetime.datetime.now()})
             _data.append(diagnostics)
-    file.truncate(0)
-    file.write(_diag)
-    file.close()
-    if( len(_data) == 0):
+    if len(_data) > 0:
+        file.truncate(0)
+        file.write(data)
+        file.close()
+    else:
         _data = None
     data = _data
 
