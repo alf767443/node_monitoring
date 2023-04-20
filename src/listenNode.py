@@ -27,7 +27,7 @@ class listenNodes:
                 # Creates the subscriber
                 self.newSubscriber(node=node)
             except Exception as e:
-                rospy.logerr("Error in node.py error")
+                rospy.logerr("Error in node.py in the node" + node['node'])
                 rospy.logerr(e)
         # Keeps the node active
         rospy.spin()
@@ -41,7 +41,7 @@ class listenNodes:
             rospy.loginfo("Subscriber to the node /" + node['node'] + " create")
             return True
         except Exception as e:
-            rospy.logerr("Error in the creation of subscriber")
+            rospy.logerr("Error in the creation of subscriber in the node" + node['node'])
             rospy.logerr(e)
             return False
         
@@ -53,7 +53,7 @@ class listenNodes:
             # Adds the date 
             data.update({'dateTime': datetime.now()})
         except Exception as e:
-            rospy.logerr("Error to convert the mensage")
+            rospy.logerr("Error to convert the mensage in the node" + args['node'])
             rospy.logerr(e)
         try:
             # If the node has a callback function it executes
@@ -61,7 +61,7 @@ class listenNodes:
                 # Execute the callback function
                 args['callback'](data)
         except Exception as e:
-            rospy.logerr("Error in callback function")
+            rospy.logerr("Error in callback function in the node" + args['node'])
             rospy.logerr(e)
         if isinstance(data, (dict, list)):
             try:

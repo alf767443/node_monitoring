@@ -44,7 +44,11 @@ def diag(data) -> None:
         os.makedirs(name=path)
     file = open(file=path + file, mode='bw+')
     # Create directory if it don't exist
-    _diag = bson.BSON.decode(file.read())
+    try:
+        _diag = bson.BSON.decode(file.read())
+    except:
+        _diag = [{}]
+        pass
     diag = data['status']
     _data = []
     for diagnostics in diag:
