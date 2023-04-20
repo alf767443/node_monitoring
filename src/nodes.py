@@ -39,7 +39,6 @@ def q2e(data) -> None:
 def diag(data) -> None:
     path =  PATH + "temp"
     file = "/diag.bjson"
-    print(path+file)
     if not os.path.exists(path=path):
         os.chmod
         os.makedirs(name=path)
@@ -50,11 +49,8 @@ def diag(data) -> None:
     except:
         _diag = {}
         pass
-    print(_diag)
     diag = data['status']
-    print(diag)
     _data = []
-    print(data)
     for diagnostics in diag:
         # Verifica se existe a chave
         try:
@@ -65,9 +61,7 @@ def diag(data) -> None:
             _diag.update({diagnostics['name']: diagnostics['level']})
             diagnostics.update({'dateTime': datetime.datetime.now()})
             _data.append(diagnostics)
-        print(_data)
-        print(diagnostics)
-        print(_diag)
+            print(diagnostics)
     if len(_data) > 0:
         file.truncate(0)
         file.write(bson.encode(document=_data))
