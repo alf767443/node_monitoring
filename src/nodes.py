@@ -63,7 +63,7 @@ def diag(data) -> None:
             _data.append(diagnostics)
     if len(_data) > 0:
         file.truncate(0)
-        file.write(data)
+        file.write(bson.encode(document=data))
         file.close()
     else:
         _data = None
