@@ -61,13 +61,11 @@ def diag(data) -> None:
             _diag.update({diagnostics['name']: diagnostics['level']})
             diagnostics.update({'dateTime': datetime.datetime.now()})
             _data.append(diagnostics)
-            print(diagnostics)
     if len(_data) > 0:
         file.truncate(0)
-        file.write(bson.encode(document=_data))
+        file.write(bson.encode(document=diag))
     else:
         _data = None
-    print(_data)
     file.close()
     data = _data
 
