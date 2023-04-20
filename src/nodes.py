@@ -45,7 +45,7 @@ def diag(data) -> None:
     file = open(file=path + file, mode='bw+')
     # Create directory if it don't exist
     try:
-        _diag = bson.BSON.decode(file.read())
+        _diag = bson.decode(file.read())
         _diag = _diag['status']
     except:
         _diag = {}
@@ -160,17 +160,17 @@ NODES = [
         }
     },    
     # Diagnostic
-    {
-        'node'    : 'diagnostics_agg',
-        'msg'     : DiagnosticArray,
-        'rate'    : 0.1,
-        'callback': diag,
-        'dataPath': {
-            'dataSource': DATASOURCE, 
-            'dataBase'  : DATALAKE,
-            'collection': 'Diagnostic'
-        }
-    }, 
+    # {
+    #     'node'    : 'diagnostics_agg',
+    #     'msg'     : DiagnosticArray,
+    #     'rate'    : 0.1,
+    #     'callback': diag,
+    #     'dataPath': {
+    #         'dataSource': DATASOURCE, 
+    #         'dataBase'  : DATALAKE,
+    #         'collection': 'Diagnostic'
+    #     }
+    # }, 
     # Sonar
     {
         'node'    : 'sonars',
