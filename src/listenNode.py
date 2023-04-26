@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
 # Import nodes
-from nodes import NODES
+from ..nodes import NODES
 
 # Import config
-from config import PATH, CLIENT
+from ..config import PATH, CLIENT
 
 # Import librarys
 import rospy, bson, os, genpy

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Import config
-from config import PATH, CLIENT
+from ..config import PATH, CLIENT
 
 import rospy, os, bson
 from pymongo import errors as pymongo_erros
