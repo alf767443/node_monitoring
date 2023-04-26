@@ -48,7 +48,7 @@ class bufferManager():
                 # Decode to BSON
                 data = bson.BSON.decode(get.read())
             except bson_errors.BSONError:
-                rospy.logerr("Error on file decode")
+                rospy.logerr("Error on file decode: " + file)
                 rospy.logerr(e)
                 get.close()
                 self.rm(file=file)
