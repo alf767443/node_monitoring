@@ -45,10 +45,13 @@ class bufferManager():
             try:
                 # Try to open the file
                 get = open(file=PATH+file, mode='rb')
+            except Exception as e:
+                rospy.logerr("Error on file open: " + file)
                 # Decode to BSON
+            try:
                 data = bson.BSON.decode(get.read())
-            except bson_errors.BSONError:
-                rospy.logerr("Error on file decode: " + file)
+            except Exception as e:
+                rospy.logerr("Errosr on file decode: " + file)
                 rospy.logerr(e)
                 get.close()
                 self.rm(file=file, msg="Error on BSON")
