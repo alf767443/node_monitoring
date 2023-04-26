@@ -30,7 +30,7 @@ class bufferManager():
                 for i in range(0,10): rate.sleep() 
             except Exception as e:
                 rospy.logerr("Error on file queue")
-                rospy.logerr(e)
+                rospy.logerr("An exception occurred:", type(e).__name__,e.args)
             
 
 # Get the files in PATH for send to cloud
@@ -40,7 +40,7 @@ class bufferManager():
             files = sorted(os.listdir(path=PATH), reverse=True)
         except Exception as e:
             rospy.logerr("Error on get the file list")
-            rospy.logerr(e)
+            rospy.logerr("An exception occurred:", type(e).__name__,e.args)
         for file in files:
             try:
                 # Try to open the file
@@ -52,7 +52,7 @@ class bufferManager():
                 data = bson.BSON.decode(get.read())
             except Exception as e:
                 rospy.logerr("Errosr on file decode: " + file)
-                rospy.logerr(e)
+                rospy.logerr("An exception occurred:", type(e).__name__,e.args)
                 get.close()
                 self.rm(file=file, msg="Error on BSON")
             # Try send to the cloud
@@ -69,7 +69,7 @@ class bufferManager():
             return True
         except Exception as e:
             rospy.logerr("Error on the file remove")
-            rospy.logerr(e)
+            rospy.logerr("An exception occurred:", type(e).__name__,e.args)
             return False
 
 # Send the data to MongoDB cloud
@@ -81,7 +81,7 @@ class bufferManager():
             test = dataPath['collection']
         except Exception as e:
             rospy.logerr("Error in storage data path")
-            rospy.logerr(e)
+            rospy.logerr("An exception occurred:", type(e).__name__,e.args)
             return True
         try:
             # Try send to the cloud
@@ -93,7 +93,7 @@ class bufferManager():
             return True
         except Exception as e:
             rospy.logerr("Error when update to cloud")
-            rospy.logerr(e)
+            rospy.logerr("An exception occurred:", type(e).__name__,e.args)
             return False
 
 

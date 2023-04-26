@@ -28,7 +28,7 @@ class listenNodes:
                 self.newSubscriber(node=node)
             except Exception as e:
                 rospy.logerr("Error in node.py in the node" + node['node'])
-                rospy.logerr(e)
+                rospy.logerr("An exception occurred:", type(e).__name__,e.args)
         # Keeps the node active
         rospy.spin()
                
@@ -42,7 +42,7 @@ class listenNodes:
             return True
         except Exception as e:
             rospy.logerr("Error in the creation of subscriber in the node" + node['node'])
-            rospy.logerr(e)
+            rospy.logerr("An exception occurred:", type(e).__name__,e.args)
             return False
         
 # Callback to the node
@@ -54,7 +54,7 @@ class listenNodes:
             data.update({'dateTime': datetime.now()})
         except Exception as e:
             rospy.logerr("Error to convert the mensage in the node" + args['node'])
-            rospy.logerr(e)
+            rospy.logerr("An exception occurred:", type(e).__name__,e.args)
         try:
             # If the node has a callback function it executes
             if args['callback'] != None:
@@ -62,7 +62,7 @@ class listenNodes:
                 args['callback'](data)
         except Exception as e:
             rospy.logerr("Error in callback function in the node" + args['node'])
-            rospy.logerr(e)
+            rospy.logerr("An exception occurred:", type(e).__name__,e.args)
         if isinstance(data, (dict, list)):
             try:
                 if CLIENT.is_primary:
@@ -76,7 +76,7 @@ class listenNodes:
                 self.createFile(dataPath=args['dataPath'], content=data)
             except Exception as e:
                 rospy.logerr("Error with MongoDB client")
-                rospy.logerr(e)
+                rospy.logerr("An exception occurred:", type(e).__name__,e.args)
             
         # Wait the set time
         for i in range(0,args['ticks']): args['rate'].sleep()
@@ -95,7 +95,7 @@ class listenNodes:
             return True
         except Exception as e:
             rospy.logerr("Error to create the timer")
-            rospy.logerr(e)
+            rospy.logerr("An exception occurred:", type(e).__name__,e.args)
             return False
     
 # Create a file that contains the information for storage
@@ -107,7 +107,7 @@ class listenNodes:
             test = dataPath['collection']
         except Exception as e:
             rospy.logerr("Error in storage data path")
-            rospy.logerr(e)
+            rospy.logerr("An exception occurred:", type(e).__name__,e.args)
             return False
         try:
             # Create data string
@@ -130,7 +130,7 @@ class listenNodes:
             return True
         except Exception as e:
             rospy.logerr("Error to create the file")
-            rospy.logerr(e)
+            rospy.logerr("An exception occurred:", type(e).__name__,e.args)
             return False
 
 # Send the data to MongoDB cloud
@@ -142,7 +142,7 @@ class listenNodes:
             test = dataPath['collection']
         except Exception as e:
             rospy.logerr("Error in storage data path")
-            rospy.logerr(e)
+            rospy.logerr("An exception occurred:", type(e).__name__,e.args)
             return True
         try:
             # Try send to the cloud
@@ -154,7 +154,7 @@ class listenNodes:
             return True
         except Exception as e:
             rospy.logerr("Error when update to cloud")
-            rospy.logerr(e)
+            rospy.logerr("An exception occurred:", type(e).__name__,e.args)
             return False
         
 # Convert message to a python document
