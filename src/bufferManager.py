@@ -51,16 +51,18 @@ class bufferManager():
                 rospy.logerr("Error on file decode: " + file)
                 rospy.logerr(e)
                 get.close()
-                self.rm(file=file)
+                self.rm(file=file, msg="Error on BSON")
             # Try send to the cloud
             if self.send2cloud(dataPath=data['dataPath'], content=data['content']):
                 get.close()
                 self.rm(file=file)
 
 # Remove a file
-    def rm(self, file):
+    def rm(self, file, msg = None):
         try:
             os.remove(PATH+file)
+            if msg != None:
+                rospy.loginfo("Delete file " + file + " | " + msg)
             return True
         except Exception as e:
             rospy.logerr("Error on the file remove")
