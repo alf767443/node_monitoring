@@ -22,8 +22,6 @@ class listenNodes:
         # Set up the subscribers for each item in NODES
         for node in self.NODES:
             try:
-                # Set node rate and ticks
-                # self.sleepDef(node=node)
                 # Creates the subscriber
                 self.newSubscriber(node=node)
             except Exception as e:
@@ -79,25 +77,7 @@ class listenNodes:
                 rospy.logerr("An exception occurred:", type(e).__name__,e.args)
             
         # Wait the set time
-        rospy.sleep(5)
-        # for i in range(0,args['ticks']): args['rate'].sleep()
-
-# Set the rate and ticks parameters for the node
-    # def sleepDef(self, node):
-    #     try: 
-    #         # Find the frequency for the node and the number of sleep ticks
-    #         fraction = Fraction(node['rate']).limit_denominator()
-    #         rate = fraction.numerator
-    #         ticks = fraction.denominator
-    #         # Define this data node
-    #         node['rate'] = rospy.Rate(rate)
-    #         node['ticks'] = ticks
-    #         rospy.logdebug("\n\tNode: " + node['node'] + "\n\trate: " + str(rate) + "\n\tticks: " + str(ticks))
-    #         return True
-    #     except Exception as e:
-    #         rospy.logerr("Error to create the timer")
-    #         rospy.logerr("An exception occurred:", type(e).__name__,e.args)
-    #         return False
+        rospy.sleep(args['sleep'])
     
 # Create a file that contains the information for storage
     def createFile(self, dataPath: bson, content: bson):
