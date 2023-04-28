@@ -12,6 +12,7 @@ from sensor_msgs.msg import BatteryState
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from ubiquity_motor.msg import MotorState
 from diagnostic_msgs.msg import DiagnosticArray
+from ros_monitoring.msg import SignalInformation
 
 # Other imports
 import os, bson, datetime
@@ -77,7 +78,7 @@ NODES = [
     # {
     #     'node'    : --The node name (odom),
     #     'msg'     : --The type of message
-    #     'rate'    : --Sample rate
+    #     'sleep'   : --Sample time
     #     'callback': --Callback function 
     #     'dataPath': {
     #         'dataSource': --Name of data source in MongoDB
@@ -91,7 +92,7 @@ NODES = [
     {
         'node'    : 'odom',
         'msg'     : Odometry,
-        'rate'    : 0.2,
+        'sleep'    : 2,
         'callback': q2e,
         'dataPath': {
             'dataSource': DATASOURCE, 
@@ -103,7 +104,7 @@ NODES = [
     {
         'node'    : 'battery_state',
         'msg'     : BatteryState,
-        'rate'    : 0.2,
+        'sleep'    : 10,
         'callback': None,
         'dataPath': {
             'dataSource': DATASOURCE, 
@@ -115,7 +116,7 @@ NODES = [
     {
         'node'    : 'scan',
         'msg'     : LaserScan,
-        'rate'    : 0.2,
+        'sleep'    : 5,
         'callback': None,
         'dataPath': {
             'dataSource': DATASOURCE, 
@@ -127,7 +128,7 @@ NODES = [
     {
         'node'    : 'amcl_pose',
         'msg'     : PoseWithCovarianceStamped,
-        'rate'    : 0.2,
+        'sleep'    : 0.2,
         'callback': q2e,
         'dataPath': {
             'dataSource': DATASOURCE, 
@@ -139,7 +140,7 @@ NODES = [
     {
         'node'    : 'motor_state',
         'msg'     : MotorState,
-        'rate'    : 0.2,
+        'sleep'    : 3,
         'callback': None,
         'dataPath': {
             'dataSource': DATASOURCE, 
@@ -151,7 +152,7 @@ NODES = [
     {
         'node'    : 'map',
         'msg'     : OccupancyGrid,
-        'rate'    : 0.1,
+        'sleep'    : 20,
         'callback': None,
         'dataPath': {
             'dataSource': DATASOURCE, 
@@ -163,7 +164,7 @@ NODES = [
     # {
     #     'node'    : 'diagnostics_agg',
     #     'msg'     : DiagnosticArray,
-    #     'rate'    : 0.1,
+    #     'sleep'    : 0.1,
     #     'callback': diag,
     #     'dataPath': {
     #         'dataSource': DATASOURCE, 
@@ -175,12 +176,23 @@ NODES = [
     {
         'node'    : 'sonars',
         'msg'     : Range,
-        'rate'    : 0.2,
+        'sleep'    : 5,
         'callback': None,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
             'collection': 'Sonar'
+        }
+    }, 
+    {
+        'node'    : 'connectionStatus',
+        'msg'     : SignalInformation,
+        'sleep'    : 5,
+        'callback': None,
+        'dataPath': {
+            'dataSource': DATASOURCE, 
+            'dataBase'  : DATALAKE,
+            'collection': 'Connection'
         }
     }, 
 ]

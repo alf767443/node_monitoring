@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
 # Import nodes
-from ..nodes import NODES
+from nodes import NODES
 
 # Import config
-from ..config import PATH, CLIENT
+from config import PATH, CLIENT
 
 # Import librarys
 import rospy, bson, os, genpy
@@ -23,7 +23,7 @@ class listenNodes:
         for node in self.NODES:
             try:
                 # Set node rate and ticks
-                self.sleepDef(node=node)
+                # self.sleepDef(node=node)
                 # Creates the subscriber
                 self.newSubscriber(node=node)
             except Exception as e:
@@ -79,24 +79,25 @@ class listenNodes:
                 rospy.logerr("An exception occurred:", type(e).__name__,e.args)
             
         # Wait the set time
-        for i in range(0,args['ticks']): args['rate'].sleep()
+        rospy.sleep(5)
+        # for i in range(0,args['ticks']): args['rate'].sleep()
 
 # Set the rate and ticks parameters for the node
-    def sleepDef(self, node):
-        try: 
-            # Find the frequency for the node and the number of sleep ticks
-            fraction = Fraction(node['rate']).limit_denominator()
-            rate = fraction.numerator
-            ticks = fraction.denominator
-            # Define this data node
-            node['rate'] = rospy.Rate(rate)
-            node['ticks'] = ticks
-            rospy.logdebug("\n\tNode: " + node['node'] + "\n\trate: " + str(rate) + "\n\tticks: " + str(ticks))
-            return True
-        except Exception as e:
-            rospy.logerr("Error to create the timer")
-            rospy.logerr("An exception occurred:", type(e).__name__,e.args)
-            return False
+    # def sleepDef(self, node):
+    #     try: 
+    #         # Find the frequency for the node and the number of sleep ticks
+    #         fraction = Fraction(node['rate']).limit_denominator()
+    #         rate = fraction.numerator
+    #         ticks = fraction.denominator
+    #         # Define this data node
+    #         node['rate'] = rospy.Rate(rate)
+    #         node['ticks'] = ticks
+    #         rospy.logdebug("\n\tNode: " + node['node'] + "\n\trate: " + str(rate) + "\n\tticks: " + str(ticks))
+    #         return True
+    #     except Exception as e:
+    #         rospy.logerr("Error to create the timer")
+    #         rospy.logerr("An exception occurred:", type(e).__name__,e.args)
+    #         return False
     
 # Create a file that contains the information for storage
     def createFile(self, dataPath: bson, content: bson):
