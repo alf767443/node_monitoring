@@ -97,7 +97,7 @@ NODES = [
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': 'Position_Odometry'
+            'collection': 'odom'
         }
     }, 
     # Battery
@@ -109,7 +109,7 @@ NODES = [
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': 'Battery'
+            'collection': 'battery_state'
         }
     }, 
     # LiDAR
@@ -121,7 +121,7 @@ NODES = [
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': 'LiDAR'
+            'collection': 'scan'
         }
     }, 
     # AMCL_pos
@@ -133,7 +133,7 @@ NODES = [
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': 'Position_AMCL'
+            'collection': 'amcl_pose'
         }
     }, 
     # Motor state
@@ -145,7 +145,7 @@ NODES = [
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': 'Motor'
+            'collection': 'motor_state'
         }
     }, 
     # Occupancy map
@@ -157,7 +157,7 @@ NODES = [
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': 'Occupancy'
+            'collection': 'map'
         }
     },    
     # Diagnostic
@@ -181,7 +181,7 @@ NODES = [
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': 'Sonar'
+            'collection': 'sonars'
         }
     }, 
     {
@@ -192,7 +192,7 @@ NODES = [
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': 'Connection'
+            'collection': 'connectionStatus'
         }
     }, 
 ]
