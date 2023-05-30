@@ -25,6 +25,10 @@ class bufferManager():
                 else:
                     # Wait 10 seconds for the next check
                     for i in range(0,10): rate.sleep()    
+            except FileNotFoundError:
+                # Create directory if it don't exist
+                os.chmod
+                os.makedirs(name=PATH)
             except (pymongo_erros.ConnectionFailure, pymongo_erros.ServerSelectionTimeoutError):
                 # Wait 10 seconds for the next check
                 for i in range(0,10): rate.sleep() 
@@ -38,10 +42,6 @@ class bufferManager():
         try:
             # Get all files in the directory
             files = sorted(os.listdir(path=PATH), reverse=True)
-        except FileNotFoundError:
-            # Create directory if it don't exist
-            os.chmod
-            os.makedirs(name=PATH)
         except Exception as e:
             rospy.logerr("Error on get the file list")
             rospy.logerr("An exception occurred:", type(e).__name__,e.args)
