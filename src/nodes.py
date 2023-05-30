@@ -4,14 +4,19 @@
 from config import DATALAKE, DATASOURCE, PATH
 
 # Messages
-from nav_msgs.msg import Odometry
-from sensor_msgs.msg import Range
-from nav_msgs.msg import OccupancyGrid
-from sensor_msgs.msg import LaserScan
-from sensor_msgs.msg import BatteryState
-from geometry_msgs.msg import PoseWithCovarianceStamped
-from ubiquity_motor.msg import MotorState
-from ros_monitoring.msg import SignalInformation
+from nav_msgs.msg import *
+from sensor_msgs.msg import *
+from geometry_msgs.msg import *
+from ubiquity_motor.msg import *
+from ros_monitoring.msg import *
+# from nav_msgs.msg import Odometry
+# from sensor_msgs.msg import Range
+# from nav_msgs.msg import OccupancyGrid
+# from sensor_msgs.msg import LaserScan
+# from sensor_msgs.msg import BatteryState
+# from geometry_msgs.msg import PoseWithCovarianceStamped
+# from ubiquity_motor.msg import MotorState
+# from ros_monitoring.msg import SignalInformation
 
 # Other imports
 import os, bson, datetime
