@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Import configurations
-from config import DATALAKE, DATASOURCE, PATH
+from config import *
 
 # Messages
 from nav_msgs.msg import *
@@ -75,14 +75,14 @@ def diag(data) -> None:
 NODES = [
     #############################################################
     # {
-    #     'node'    : --The node name (odom),
+    #     'node'    : --The node name,
     #     'msg'     : --The type of message
-    #     'sleep'   : --Sample time
-    #     'callback': --Callback function 
+    #     'sleep'   : --Sample time [optional, 1]
+    #     'callback': --Callback function [optional, None]
     #     'dataPath': {
-    #         'dataSource': --Name of data source in MongoDB
-    #         'dataBase'  : --Name of data base in MongoDB
-    #         'collection': --Name of collection in MongoDB
+    #         'dataSource': --Name of data source in MongoDB [optional, config.DATASOURCE]
+    #         'dataBase'  : --Name of data base in MongoDB [optional, config.DATALAKE]
+    #         'collection': --Name of collection in MongoDB [optional, node name]
     #     }
     # }
     #############################################################
