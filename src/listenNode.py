@@ -88,7 +88,7 @@ class listenNodes:
             # Uses the information in the node dictionary to create a subscriber
             rospy.Subscriber(name=node['node'], data_class=node['msg'], callback=self.callback, callback_args=node, queue_size=1)
 
-            rospy.loginfo("Subscriber to the node /" + node['node'] + " create")
+            rospy.loginfo("Subscriber to the node " + node['node'] + " create")
             return True
         except Exception as e:
             rospy.logerr("Error in the creation of subscriber in the node" + node['node'])
