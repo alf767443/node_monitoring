@@ -35,13 +35,13 @@ class bufferManager():
 
 # Get the files in PATH for send to cloud
     def getFiles(self):
-        # Create directory if it don't exist
-        if not os.path.exists(path=PATH):
-            os.chmod
-            os.makedirs(name=PATH)
         try:
             # Get all files in the directory
             files = sorted(os.listdir(path=PATH), reverse=True)
+        except FileNotFoundError:
+            # Create directory if it don't exist
+            os.chmod
+            os.makedirs(name=PATH)
         except Exception as e:
             rospy.logerr("Error on get the file list")
             rospy.logerr("An exception occurred:", type(e).__name__,e.args)
