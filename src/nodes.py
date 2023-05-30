@@ -7,8 +7,9 @@ from config import *
 from nav_msgs.msg import *
 from sensor_msgs.msg import *
 from geometry_msgs.msg import *
-from ubiquity_motor.msg import *
-from ros_monitoring.msg import *
+
+from tello_driver.msg import *
+from h264_image_transport.msg import *
 
 # Other imports
 import os, bson, datetime
@@ -35,40 +36,6 @@ def q2e(data) -> None:
     # Update the data to storage
     data.update({'pose': {'pose': {'position': data['pose']['pose']['position'], 'orientation': orientation}}})
 
-# To test
-def diag(data) -> None:
-    path =  PATH + "temp"
-    file = "/diag.bjson"
-    if not os.path.exists(path=path):
-        os.chmod
-        os.makedirs(name=path)
-    file = open(file=path + file, mode='bw+')
-    # Create directory if it don't exist
-    try:
-        _diag = bson.decode(file.read())
-        _diag = _diag['status']
-    except:
-        _diag = {}
-        pass
-    diag = data['status']
-    _data = []
-    for diagnostics in diag:
-        # Verifica se existe a chave
-        try:
-            _diag[diagnostics['name']]
-        except:
-            _diag.update({diagnostics['name']: None})
-        if (_diag[diagnostics['name']] != diagnostics['level']):
-            _diag.update({diagnostics['name']: diagnostics['level']})
-            diagnostics.update({'dateTime': datetime.datetime.now()})
-            _data.append(diagnostics)
-    if len(_data) > 0:
-        file.truncate(0)
-        file.write(bson.encode(document={data}))
-    else:
-        _data = None
-    file.close()
-    data = _data
 
 # ============== Nodes ============== #
 
@@ -89,52 +56,33 @@ NODES = [
 
     # Odometry
     {
-        'node'    : '/odom',
+        'node'    : '/tello/odom',
         'msg'     : Odometry,
-        'sleep'    : 2,
         'callback': q2e,
-    }, 
-    # Battery
+    },
+    # Statues
     {
-        'node'    : '/battery_state',
-        'msg'     : BatteryState,
-        'sleep'    : 10,
-    }, 
-    # LiDAR
+        'node'    : '/tello/status',
+        'msg'     : TelloStatus,
+    },
+    # Inertial Sensor Modules
     {
-        'node'    : '/scan',
-        'msg'     : LaserScan,
-        'sleep'    : 5,
+        'node'    : '/tello/imu',
+        'msg'     : Imu,
     }, 
-    # AMCL_pos
+    # Inertial Sensor Modules
     {
-        'node'    : '/amcl_pose',
-        'msg'     : PoseWithCovarianceStamped,
-        'sleep'    : 0.2,
-        'callback': q2e,
-    }, 
-    # Motor state
+        'node'    : '/tello/imu',
+        'msg'     : Imu,
+    },
+    # Camera info
     {
-        'node'    : '/motor_state',
-        'msg'     : MotorState,
-        'sleep'    : 3,
-    }, 
-    # Occupancy map
+        'node'    : '/tello/image_raw/camera_info',
+        'msg'     : CameraInfo,
+    },
+    # Image RAW
     {
-        'node'    : '/map',
-        'msg'     : OccupancyGrid,
-        'sleep'    : 20,
-    }, 
-    # Sonar
-    {
-        'node'    : '/sonars',
-        'msg'     : Range,
-        'sleep'    : 5,
-    }, 
-    # ConnectionStatus
-    {
-        'node'    : '/connectionStatus',
-        'msg'     : SignalInformation,
-        'sleep'    : 5,
-    }, 
+        'node'    : '/tello/image_raw/h264',
+        'msg'     : H264Packet,
+    },
 ]
