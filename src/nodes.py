@@ -93,35 +93,18 @@ NODES = [
         'msg'     : Odometry,
         'sleep'    : 2,
         'callback': q2e,
-        'dataPath': {
-            'dataSource': DATASOURCE, 
-            'dataBase'  : DATALAKE,
-            'collection': '/odom'
-        }
     }, 
     # Battery
     {
         'node'    : '/battery_state',
         'msg'     : BatteryState,
         'sleep'    : 10,
-        'callback': debug,
-        'dataPath': {
-            'dataSource': DATASOURCE, 
-            'dataBase'  : DATALAKE,
-            'collection': '/battery_state'
-        }
     }, 
     # LiDAR
     {
         'node'    : '/scan',
         'msg'     : LaserScan,
         'sleep'    : 5,
-        'callback': debug,
-        'dataPath': {
-            'dataSource': DATASOURCE, 
-            'dataBase'  : DATALAKE,
-            'collection': '/scan'
-        }
     }, 
     # AMCL_pos
     {
@@ -129,58 +112,29 @@ NODES = [
         'msg'     : PoseWithCovarianceStamped,
         'sleep'    : 0.2,
         'callback': q2e,
-        'dataPath': {
-            'dataSource': DATASOURCE, 
-            'dataBase'  : DATALAKE,
-            'collection': '/amcl_pose'
-        }
     }, 
     # Motor state
     {
         'node'    : '/motor_state',
         'msg'     : MotorState,
         'sleep'    : 3,
-        'callback': debug,
-        'dataPath': {
-            'dataSource': DATASOURCE, 
-            'dataBase'  : DATALAKE,
-            'collection': '/motor_state'
-        }
     }, 
     # Occupancy map
     {
         'node'    : '/map',
         'msg'     : OccupancyGrid,
         'sleep'    : 20,
-        'callback': debug,
-        'dataPath': {
-            'dataSource': DATASOURCE, 
-            'dataBase'  : DATALAKE,
-            'collection': '/map'
-        }
     }, 
     # Sonar
     {
         'node'    : '/sonars',
         'msg'     : Range,
         'sleep'    : 5,
-        'callback': debug,
-        'dataPath': {
-            'dataSource': DATASOURCE, 
-            'dataBase'  : DATALAKE,
-            'collection': '/sonars'
-        }
     }, 
     # ConnectionStatus
     {
         'node'    : '/connectionStatus',
         'msg'     : SignalInformation,
         'sleep'    : 5,
-        'callback': debug,
-        'dataPath': {
-            'dataSource': DATASOURCE, 
-            'dataBase'  : DATALAKE,
-            'collection': '/connectionStatus'
-        }
     }, 
 ]
