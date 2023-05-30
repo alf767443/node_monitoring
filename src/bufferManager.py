@@ -35,6 +35,10 @@ class bufferManager():
 
 # Get the files in PATH for send to cloud
     def getFiles(self):
+        # Create directory if it don't exist
+        if not os.path.exists(path=PATH):
+            os.chmod
+            os.makedirs(name=PATH)
         try:
             # Get all files in the directory
             files = sorted(os.listdir(path=PATH), reverse=True)
