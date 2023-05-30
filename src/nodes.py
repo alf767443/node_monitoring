@@ -21,6 +21,9 @@ from tf.transformations import euler_from_quaternion
 # The function should always only have one variable 'data', where 'data' is the received message converted to a document
 
 # Quaternion to euler callback
+def debug(data) -> None:
+    print(data)
+
 def q2e(data) -> None:
     # Get orientation
     orientation = data['pose']['pose']['orientation']
@@ -104,7 +107,7 @@ NODES = [
         'node'    : 'battery_state',
         'msg'     : BatteryState,
         'sleep'    : 10,
-        'callback': None,
+        'callback': debug,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
@@ -116,7 +119,7 @@ NODES = [
         'node'    : 'scan',
         'msg'     : LaserScan,
         'sleep'    : 5,
-        'callback': None,
+        'callback': debug,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
@@ -140,7 +143,7 @@ NODES = [
         'node'    : 'motor_state',
         'msg'     : MotorState,
         'sleep'    : 3,
-        'callback': None,
+        'callback': debug,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
@@ -152,7 +155,7 @@ NODES = [
         'node'    : 'map',
         'msg'     : OccupancyGrid,
         'sleep'    : 20,
-        'callback': None,
+        'callback': debug,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
@@ -164,7 +167,7 @@ NODES = [
         'node'    : 'sonars',
         'msg'     : Range,
         'sleep'    : 5,
-        'callback': None,
+        'callback': debug,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
@@ -176,7 +179,7 @@ NODES = [
         'node'    : 'connectionStatus',
         'msg'     : SignalInformation,
         'sleep'    : 5,
-        'callback': None,
+        'callback': debug,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
