@@ -107,7 +107,7 @@ class listenNodes:
             # Gets the message data
             data = self.msg2document(msg=msg)
             # Adds the date 
-            data.update({'dateTime': datetime.now()})
+            data.update({'dateTime': datetime.now(), 'robot': ROBOT_NAME})
         except Exception as e:
             rospy.logerr("Error to convert the mensage in the node" + args['node'])
             rospy.logerr("An exception occurred:", type(e).__name__,e.args)

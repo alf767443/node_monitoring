@@ -6,7 +6,8 @@ import os, pymongo
 PATH = os.path.expanduser('~')+'/tempData/'
 
 #============ Mongo ============#
-DATALAKE = "New_Robot"
+ROBOT_NAME = 'Tello_01'
+DATALAKE = "CeDRI_TelloEdu"
 DATASOURCE = "CeDRI_robots"
 CLIENT = pymongo.MongoClient('mongodb://192.168.217.183:27017/', 
                              connectTimeoutMS = 500, 
