@@ -3,7 +3,7 @@
 import os, pymongo
 
 #============ Storage ============#
-PATH = os.path.expanduser('~')+'/UGV_tempData/'
+PATH = os.path.expanduser('~')+'/tempData/'
 
 #============ Mongo ============#
 DATALAKE = "New_Robot"

@@ -11,7 +11,6 @@ from sensor_msgs.msg import LaserScan
 from sensor_msgs.msg import BatteryState
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from ubiquity_motor.msg import MotorState
-from diagnostic_msgs.msg import DiagnosticArray
 from ros_monitoring.msg import SignalInformation
 
 # Other imports
@@ -159,19 +158,7 @@ NODES = [
             'dataBase'  : DATALAKE,
             'collection': 'map'
         }
-    },    
-    # Diagnostic
-    # {
-    #     'node'    : 'diagnostics_agg',
-    #     'msg'     : DiagnosticArray,
-    #     'sleep'    : 0.1,
-    #     'callback': diag,
-    #     'dataPath': {
-    #         'dataSource': DATASOURCE, 
-    #         'dataBase'  : DATALAKE,
-    #         'collection': 'Diagnostic'
-    #     }
-    # }, 
+    }, 
     # Sonar
     {
         'node'    : 'sonars',
@@ -184,6 +171,7 @@ NODES = [
             'collection': 'sonars'
         }
     }, 
+    # ConnectionStatus
     {
         'node'    : 'connectionStatus',
         'msg'     : SignalInformation,
