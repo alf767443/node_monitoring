@@ -9,14 +9,6 @@ from sensor_msgs.msg import *
 from geometry_msgs.msg import *
 from ubiquity_motor.msg import *
 from ros_monitoring.msg import *
-# from nav_msgs.msg import Odometry
-# from sensor_msgs.msg import Range
-# from nav_msgs.msg import OccupancyGrid
-# from sensor_msgs.msg import LaserScan
-# from sensor_msgs.msg import BatteryState
-# from geometry_msgs.msg import PoseWithCovarianceStamped
-# from ubiquity_motor.msg import MotorState
-# from ros_monitoring.msg import SignalInformation
 
 # Other imports
 import os, bson, datetime
@@ -97,98 +89,98 @@ NODES = [
 
     # Odometry
     {
-        'node'    : 'odom',
+        'node'    : '/odom',
         'msg'     : Odometry,
         'sleep'    : 2,
         'callback': q2e,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': 'odom'
+            'collection': '/odom'
         }
     }, 
     # Battery
     {
-        'node'    : 'battery_state',
+        'node'    : '/battery_state',
         'msg'     : BatteryState,
         'sleep'    : 10,
         'callback': debug,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': 'battery_state'
+            'collection': '/battery_state'
         }
     }, 
     # LiDAR
     {
-        'node'    : 'scan',
+        'node'    : '/scan',
         'msg'     : LaserScan,
         'sleep'    : 5,
         'callback': debug,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': 'scan'
+            'collection': '/scan'
         }
     }, 
     # AMCL_pos
     {
-        'node'    : 'amcl_pose',
+        'node'    : '/amcl_pose',
         'msg'     : PoseWithCovarianceStamped,
         'sleep'    : 0.2,
         'callback': q2e,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': 'amcl_pose'
+            'collection': '/amcl_pose'
         }
     }, 
     # Motor state
     {
-        'node'    : 'motor_state',
+        'node'    : '/motor_state',
         'msg'     : MotorState,
         'sleep'    : 3,
         'callback': debug,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': 'motor_state'
+            'collection': '/motor_state'
         }
     }, 
     # Occupancy map
     {
-        'node'    : 'map',
+        'node'    : '/map',
         'msg'     : OccupancyGrid,
         'sleep'    : 20,
         'callback': debug,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': 'map'
+            'collection': '/map'
         }
     }, 
     # Sonar
     {
-        'node'    : 'sonars',
+        'node'    : '/sonars',
         'msg'     : Range,
         'sleep'    : 5,
         'callback': debug,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': 'sonars'
+            'collection': '/sonars'
         }
     }, 
     # ConnectionStatus
     {
-        'node'    : 'connectionStatus',
+        'node'    : '/connectionStatus',
         'msg'     : SignalInformation,
         'sleep'    : 5,
         'callback': debug,
         'dataPath': {
             'dataSource': DATASOURCE, 
             'dataBase'  : DATALAKE,
-            'collection': 'connectionStatus'
+            'collection': '/connectionStatus'
         }
     }, 
 ]
