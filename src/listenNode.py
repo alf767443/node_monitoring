@@ -31,7 +31,7 @@ class listenNodes:
         rospy.spin()
 
 # Create a random string
-    def randomString(size):
+    def randomString(self, size):
         chars = string.ascii_letters + string.digits
         return ''.join(random.choice(chars) for _ in range(size))
 
@@ -152,7 +152,7 @@ class listenNodes:
             # Create data string
             data = bson.encode(document={'dataPath': dataPath, 'content': content})
             # Create the file name
-            fileName =  datetime.strftime(datetime.now(),"%Y%m%d%H%M%S_%f")+'_'+self.randomString(10)
+            fileName =  datetime.strftime(datetime.now(),"%Y%m%d%H%M%S_%f")+'_'+self.randomString(size=10)
             # Define the extension
             extencion = '.cjson'
             # Create the extension
