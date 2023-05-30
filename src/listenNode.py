@@ -4,7 +4,7 @@
 from nodes import NODES
 
 # Import config
-from config import PATH, CLIENT
+from config import *
 
 # Import librarys
 import rospy, bson, os, genpy
@@ -18,7 +18,7 @@ class listenNodes:
         rospy.init_node('listenNodes', anonymous=False)
         rospy.loginfo("Listen ROS nodes started")
         # Reads out the list of nodes present in the file nodes.py
-        self.NODES = NODES
+        self.NODES = self.fillNode(nodes=NODES)
         # Set up the subscribers for each item in NODES
         for node in self.NODES:
             try:
@@ -29,6 +29,58 @@ class listenNodes:
                 rospy.logerr("An exception occurred:", type(e).__name__,e.args)
         # Keeps the node active
         rospy.spin()
+
+# Fill Nodes default info 
+    def fillNode(self, nodes):
+        # Deafult values
+        def defaultValues(node):
+            # Create the default values dictionary
+            try:
+                _return = {
+                    'sleep'    : 1,                     # Sleep of 1 second
+                    'callback': None,                   # No callback function
+                    'dataPath': {
+                        'dataSource': DATASOURCE,       # Add DATASOURCE of config.py
+                        'dataBase'  : DATALAKE,         # Add DATALAKE of config.py
+                        'collection': node['node']      # Collection name is the same of of node name
+                    }
+                }
+                return _return
+            except Exception as e:
+                rospy.logerr("Error in default values")
+                rospy.logerr("An exception occurred:", type(e).__name__,e.args)
+                return None
+        # Update the dictionary
+        def update_nested_dict(default, target):
+            # Without default values
+            if default == None:
+                rospy.logerr("No default dictionary for: ", target)
+                target = None
+            # Run for all dictionary
+            for key, value in default.items():
+                try:
+                    # Check if nested
+                    if isinstance(value, dict) and key in target and isinstance(target[key], dict):
+                        update_nested_dict(value, target[key])
+                    else:
+                        target.setdefault(key, value)
+                except Exception as e:
+                    rospy.logerr("Error in the key:", key, value)
+                    rospy.logerr("An exception occurred:", type(e).__name__,e.args)
+        # Copy Nodes
+        try:
+            _nodes = nodes.copy()
+        except Exception as e:
+            rospy.logerr("Error in copy of NODES")
+            rospy.logerr("An exception occurred:", type(e).__name__,e.args)
+        # Run for all codes        
+        for node in _nodes:
+            try:
+                update_nested_dict(defaultValues(node=node), node)
+            except Exception as e:
+                rospy.logerr("Error in set values of:", node)
+                rospy.logerr("An exception occurred:", type(e).__name__,e.args)
+        return _nodes
                
 # Create new subscriber
     def newSubscriber(self, node): 
