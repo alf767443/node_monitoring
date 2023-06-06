@@ -7,7 +7,7 @@ from nodes import NODES
 from config import *
 
 # Import librarys
-import rospy, bson, os, genpy
+import rospy, bson, os, genpy, string, random
 from pymongo import errors as pymongo_erros
 from fractions import Fraction
 from datetime import datetime
@@ -29,6 +29,12 @@ class listenNodes:
                 rospy.logerr("An exception occurred:", type(e).__name__,e.args)
         # Keeps the node active
         rospy.spin()
+
+# Create a random string
+    def randomString(self, size):
+        chars = string.ascii_letters + string.digits
+        return ''.join(random.choice(chars) for _ in range(size))
+
 
 # Fill Nodes default info 
     def fillNode(self, nodes):
@@ -84,7 +90,7 @@ class listenNodes:
                
 # Create new subscriber
     def newSubscriber(self, node): 
-        try:
+        try:    
             # Uses the information in the node dictionary to create a subscriber
             rospy.Subscriber(name=node['node'], data_class=node['msg'], callback=self.callback, callback_args=node, queue_size=1)
 
@@ -101,7 +107,7 @@ class listenNodes:
             # Gets the message data
             data = self.msg2document(msg=msg)
             # Adds the date 
-            data.update({'dateTime': datetime.now()})
+            data.update({'dateTime': datetime.now(), 'robot': ROBOT_NAME})
         except Exception as e:
             rospy.logerr("Error to convert the mensage in the node" + args['node'])
             rospy.logerr("An exception occurred:", type(e).__name__,e.args)
@@ -146,7 +152,7 @@ class listenNodes:
             # Create data string
             data = bson.encode(document={'dataPath': dataPath, 'content': content})
             # Create the file name
-            fileName =  datetime.strftime(datetime.now(),"%Y%m%d%H%M%S_%f") + dataPath['dataBase'] + dataPath['collection']
+            fileName =  datetime.strftime(datetime.now(),"%Y%m%d%H%M%S_%f")+'_'+self.randomString(size=10)
             # Define the extension
             extencion = '.cjson'
             # Create the extension
