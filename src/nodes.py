@@ -118,13 +118,7 @@ NODES = [
         'node'    : '/motor_state',
         'msg'     : MotorState,
         'sleep'    : 3,
-    }, 
-    # Occupancy map
-    {
-        'node'    : '/map',
-        'msg'     : OccupancyGrid,
-        'sleep'    : 20,
-    }, 
+    },
     # Sonar
     {
         'node'    : '/sonars',
