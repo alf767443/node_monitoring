@@ -64,7 +64,7 @@ def diffStore(data, node) -> None:
         os.makedirs(name=PATH)
     # Open file
     if not os.path.exists(path=file):
-        file = open(file=file, mode='bw')
+        file = open(file=file, mode='bw+')
     else:
         file = open(file=file, mode='br+')
     # Read the file
