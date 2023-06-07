@@ -72,21 +72,22 @@ def diffStore(data, node) -> None:
     # Compare 'data' with the data in file
     if not _file == b'':
         # Decode the bson 
-        _file = bson.BSON.decode(_file)
+        try:
+            _file = bson.BSON.decode(_file)
+        except bson.errors.InvalidBSON:
+            file.write(bson.encode(document=_data))
+            file.close()
+            pass            
         # Compare the dictionaries
         if compare_dict(_data, _file):
-            print('Equal')
+            data = None
         else:
-            file.write( bson.encode(document=_data))
-            print('Diff')
+            file.write(bson.encode(document=_data))
     # The file is void
     else:
-        print('null')
-        file.write( bson.encode(document=_data))
-
-    data = None
+        file.write(bson.encode(document=_data))
+    # Close file
     file.close()
-    return True
 
 # ============== Nodes ============== #
 
