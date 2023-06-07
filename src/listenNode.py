@@ -119,7 +119,7 @@ class listenNodes:
         except Exception as e:
             rospy.logerr("Error in callback function in the node" + args['node'])
             rospy.logerr("An exception occurred:", type(e).__name__,e.args)
-        if isinstance(data, (dict, list)):
+        if isinstance(data, (dict, list)) and data != {}:
             try:
                 if CLIENT.is_primary:
                     if not self.send2cloud(dataPath=args['dataPath'], content=data):
@@ -132,8 +132,7 @@ class listenNodes:
                 self.createFile(dataPath=args['dataPath'], content=data)
             except Exception as e:
                 rospy.logerr("Error with MongoDB client")
-                rospy.logerr("An exception occurred:", type(e).__name__,e.args)
-            
+                rospy.logerr("An exception occurred:", type(e).__name__,e.args)       
         # Wait the set time
         rospy.sleep(args['sleep'])
     
