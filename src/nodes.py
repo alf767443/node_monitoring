@@ -63,8 +63,13 @@ def diffStore(data, node) -> None:
         os.makedirs(name=PATH)
     # Open file
     file = open(file=file, mode='bw+')
-    file = file.read()
-    print(file)
+    _file = file.read()
+    a = {'a':1}
+    print(a.pop('a'))
+    if _file == b'':
+        print(None)
+        # file.write(data)
+    print(_file)
     # if not len(file):
     
 
@@ -95,6 +100,7 @@ def diffStore(data, node) -> None:
     # file.close()
     # data = _data
     data = None
+    file.close()
 
     
     
