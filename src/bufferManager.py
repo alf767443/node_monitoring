@@ -42,6 +42,7 @@ class bufferManager():
         try:
             # Get all files in the directory
             files = sorted(os.listdir(path=PATH), reverse=True)
+            files = list(filter(lambda file: file.endswith(".cjson"), files))
         except Exception as e:
             rospy.logerr("Error on get the file list")
             rospy.logerr("An exception occurred:", type(e).__name__,e.args)
