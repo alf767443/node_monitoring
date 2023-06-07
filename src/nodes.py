@@ -77,7 +77,7 @@ def diffStore(data, node) -> None:
         except bson.errors.InvalidBSON:
             file.write(bson.encode(document=_data))
             file.close()
-            pass            
+            return None            
         # Compare the dictionaries
         if compare_dict(_data, _file):
             data = None
