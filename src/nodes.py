@@ -37,14 +37,38 @@ def q2e(data, node) -> None:
 
 # Store data just if is 
 def diffStore(data, node) -> None:
-    # file = "/diag.bjson"
+    
     print(data)
     print(node)
-    # if not os.path.exists(path=path):
-    #     os.chmod
-    #     os.makedirs(name=path)
-    # file = open(file=path + file, mode='bw+')
-    # # Create directory if it don't exist
+    # Compare dictionaries
+    def compare_dict(dict1, dict2):
+        # Check size of the dicts
+        if len(dict1) != len(dict2):
+            return False
+        # Check keys and values
+        for key, value in dict1.items():
+            if key not in dict2:
+                return False
+            # If is nested
+            if isinstance(value, dict) and isinstance(dict2[key], dict):
+                if not compare_dict(value, dict2[key]):
+                    return False
+            elif dict2[key] != value:
+                return False
+    # Set file path and name, extension temporary JSON (.tjson)
+    file = PATH + '/' + str(node['node'] + '.tjson')
+    # Check if path exists
+    if not os.path.exists(path=PATH):
+        os.chmod
+        os.makedirs(name=PATH)
+    # Open file
+    file = open(file=file, mode='bw+')
+    file = file.read()
+    print(file)
+    # if not len(file):
+    
+
+    # _data = bson.BSON.decode(file.read())
     # try:
     #     _diag = bson.decode(file.read())
     #     _diag = _diag['status']
@@ -54,7 +78,7 @@ def diffStore(data, node) -> None:
     # diag = data['status']
     # _data = []
     # for diagnostics in diag:
-    #     # Verifica se existe a chave
+    #     # Verifica se existe a key
     #     try:
     #         _diag[diagnostics['name']]
     #     except:
@@ -71,6 +95,10 @@ def diffStore(data, node) -> None:
     # file.close()
     # data = _data
     data = None
+
+    
+    
+    return True
 
 # ============== Nodes ============== #
 
