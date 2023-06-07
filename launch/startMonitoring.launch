@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="node_monitoting" type="listenNode" name="listenNode" output="screen" respawn="false" />
+  <node pkg="node_monitoting" type="bufferManager" name="bufferManager" output="screen" respawn="false" />
+</launch>
