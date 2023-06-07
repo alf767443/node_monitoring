@@ -37,11 +37,11 @@ def q2e(data, node) -> None:
 
 # Store data just if is 
 def diffStore(data, node) -> None:
-    
-    print(data)
-    print(node)
+    # Create a local data
+    _data = data.copy()
+    _data.pop('dateTime')
     # Compare dictionaries
-    def compare_dict(dict1, dict2):
+    def compare_dict(dict1, dict2)->bool:
         # Check size of the dicts
         if len(dict1) != len(dict2):
             return False
@@ -55,6 +55,7 @@ def diffStore(data, node) -> None:
                     return False
             elif dict2[key] != value:
                 return False
+        return True
     # Set file path and name, extension temporary JSON (.tjson)
     file = PATH + '/' + str(node['node'] + '.tjson')
     # Check if path exists
@@ -64,46 +65,22 @@ def diffStore(data, node) -> None:
     # Open file
     file = open(file=file, mode='bw+')
     _file = file.read()
-    a = {'a':1}
-    print(a.pop('a'))
-    if _file == b'':
-        print(None)
-        # file.write(data)
-    print(_file)
-    # if not len(file):
-    
+    # Compare 'data' with the data in file
+    if not _file == b'':
+        # Decode the bson 
+        _file = bson.BSON.decode(_file)
+        # Compare the dictionaries
+        if compare_dict(_data, _file):
+            print('Equal')
+        else:
+            file.write(_data)
+            print('Diff')
+    # The file is void
+    else:
+        file.write(_data)
 
-    # _data = bson.BSON.decode(file.read())
-    # try:
-    #     _diag = bson.decode(file.read())
-    #     _diag = _diag['status']
-    # except:
-    #     _diag = {}
-    #     pass
-    # diag = data['status']
-    # _data = []
-    # for diagnostics in diag:
-    #     # Verifica se existe a key
-    #     try:
-    #         _diag[diagnostics['name']]
-    #     except:
-    #         _diag.update({diagnostics['name']: None})
-    #     if (_diag[diagnostics['name']] != diagnostics['level']):
-    #         _diag.update({diagnostics['name']: diagnostics['level']})
-    #         diagnostics.update({'dateTime': datetime.datetime.now()})
-    #         _data.append(diagnostics)
-    # if len(_data) > 0:
-    #     file.truncate(0)
-    #     file.write(bson.encode(document={data}))
-    # else:
-    #     _data = None
-    # file.close()
-    # data = _data
     data = None
     file.close()
-
-    
-    
     return True
 
 # ============== Nodes ============== #
