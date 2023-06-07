@@ -83,7 +83,7 @@ def diffStore(data, node) -> None:
         # Compare the dictionaries
         if compare_dict(_data, _file):
             print('equal')
-            data.update({})
+            data.clear()
         else:
             print('diff')
             file.write(bson.encode(document=_data))
