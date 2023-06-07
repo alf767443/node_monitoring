@@ -35,40 +35,41 @@ def q2e(data) -> None:
     # Update the data to storage
     data.update({'pose': {'pose': {'position': data['pose']['pose']['position'], 'orientation': orientation}}})
 
-# To test
-def diag(data) -> None:
-    path =  PATH + "temp"
-    file = "/diag.bjson"
-    if not os.path.exists(path=path):
-        os.chmod
-        os.makedirs(name=path)
-    file = open(file=path + file, mode='bw+')
-    # Create directory if it don't exist
-    try:
-        _diag = bson.decode(file.read())
-        _diag = _diag['status']
-    except:
-        _diag = {}
-        pass
-    diag = data['status']
-    _data = []
-    for diagnostics in diag:
-        # Verifica se existe a chave
-        try:
-            _diag[diagnostics['name']]
-        except:
-            _diag.update({diagnostics['name']: None})
-        if (_diag[diagnostics['name']] != diagnostics['level']):
-            _diag.update({diagnostics['name']: diagnostics['level']})
-            diagnostics.update({'dateTime': datetime.datetime.now()})
-            _data.append(diagnostics)
-    if len(_data) > 0:
-        file.truncate(0)
-        file.write(bson.encode(document={data}))
-    else:
-        _data = None
-    file.close()
-    data = _data
+# Store data just if is 
+def diffStore(data) -> None:
+    # file = "/diag.bjson"
+    print(data)
+    # if not os.path.exists(path=path):
+    #     os.chmod
+    #     os.makedirs(name=path)
+    # file = open(file=path + file, mode='bw+')
+    # # Create directory if it don't exist
+    # try:
+    #     _diag = bson.decode(file.read())
+    #     _diag = _diag['status']
+    # except:
+    #     _diag = {}
+    #     pass
+    # diag = data['status']
+    # _data = []
+    # for diagnostics in diag:
+    #     # Verifica se existe a chave
+    #     try:
+    #         _diag[diagnostics['name']]
+    #     except:
+    #         _diag.update({diagnostics['name']: None})
+    #     if (_diag[diagnostics['name']] != diagnostics['level']):
+    #         _diag.update({diagnostics['name']: diagnostics['level']})
+    #         diagnostics.update({'dateTime': datetime.datetime.now()})
+    #         _data.append(diagnostics)
+    # if len(_data) > 0:
+    #     file.truncate(0)
+    #     file.write(bson.encode(document={data}))
+    # else:
+    #     _data = None
+    # file.close()
+    # data = _data
+    data = None
 
 # ============== Nodes ============== #
 
@@ -131,4 +132,10 @@ NODES = [
         'msg'     : SignalInformation,
         'sleep'    : 5,
     }, 
+    # NodesStatus
+    {
+        'node'    : '/nodesStatus',
+        'msg'     : NodesInformation,
+        'sleep'    : 5,
+    },
 ]
