@@ -7,35 +7,20 @@ from config import *
 from nav_msgs.msg import *
 from sensor_msgs.msg import *
 from geometry_msgs.msg import *
-from ubiquity_motor.msg import *
 from ros_monitoring.msg import *
 
 # Other imports
 import os, bson, datetime
-from tf.transformations import euler_from_quaternion
 
 # ============== Callback function ============== #
 # The function should always only have one variable 'data', where 'data' is the received message converted to a document
 
-# Quaternion to euler callback
+# Debug node callback
 def debug(data, node) -> None:
     print(data)
-
-def q2e(data, node) -> None:
-    # Get orientation
-    orientation = data['pose']['pose']['orientation']
-    # Convert
-    (raw, pitch, yaw) = euler_from_quaternion([orientation['x'], orientation['y'], orientation['z'], orientation['w']])
-    # Add in a dictionary
-    orientation = {
-        'raw'     :  raw,
-        'pitch'   : pitch,
-        'yaw'     : yaw,
-    }
-    # Update the data to storage
-    data.update({'pose': {'pose': {'position': data['pose']['pose']['position'], 'orientation': orientation}}})
-
-# Store data just if is 
+    print(node)
+    
+# Store data just if is different
 def diffStore(data, node) -> None:
     # Create a local data
     _data = data.copy()
@@ -106,44 +91,7 @@ NODES = [
     # }
     #############################################################
 
-    # Odometry
-    {
-        'node'    : '/odom',
-        'msg'     : Odometry,
-        'sleep'   :  2,
-        'callback': q2e,
-    }, 
-    # Battery
-    {
-        'node'    : '/battery_state',
-        'msg'     : BatteryState,
-        'sleep'   :  10,
-    }, 
-    # LiDAR
-    {
-        'node'    : '/scan',
-        'msg'     : LaserScan,
-        'sleep'   : 5,
-    }, 
-    # AMCL_pos
-    {
-        'node'    : '/amcl_pose',
-        'msg'     : PoseWithCovarianceStamped,
-        'sleep'   :  0.2,
-        'callback': q2e,
-    }, 
-    # Motor state
-    {
-        'node'    : '/motor_state',
-        'msg'     : MotorState,
-        'sleep'   :  3,
-    },
-    # Sonar
-    {
-        'node'    : '/sonars',
-        'msg'     : Range,
-        'sleep'   : 5,
-    }, 
+    
     # ConnectionStatus
     {
         'node'    : '/connectionStatus',
@@ -156,5 +104,5 @@ NODES = [
         'msg'     : NodesInformation,
         'sleep'   : 5,
         'callback': diffStore
-    },
+    }
 ]
