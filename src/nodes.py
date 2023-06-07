@@ -57,13 +57,17 @@ def diffStore(data, node) -> None:
                 return False
         return True
     # Set file path and name, extension temporary JSON (.tjson)
-    file = PATH + '/' + str(node['node'] + '.tjson')
+    file = PATH + str(node['node'].replace('/', '') + '.tjson')
     # Check if path exists
     if not os.path.exists(path=PATH):
         os.chmod
         os.makedirs(name=PATH)
     # Open file
-    file = open(file=file, mode='bw+')
+    if not os.path.exists(path=file):
+        file = open(file=file, mode='bw')
+    else:
+        file = open(file=file, mode='br+')
+    # Read the file
     _file = file.read()
     # Compare 'data' with the data in file
     if not _file == b'':
