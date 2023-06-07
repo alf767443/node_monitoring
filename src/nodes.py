@@ -92,50 +92,51 @@ NODES = [
     {
         'node'    : '/odom',
         'msg'     : Odometry,
-        'sleep'    : 2,
+        'sleep'   :  2,
         'callback': q2e,
     }, 
     # Battery
     {
         'node'    : '/battery_state',
         'msg'     : BatteryState,
-        'sleep'    : 10,
+        'sleep'   :  10,
     }, 
     # LiDAR
     {
         'node'    : '/scan',
         'msg'     : LaserScan,
-        'sleep'    : 5,
+        'sleep'   : 5,
     }, 
     # AMCL_pos
     {
         'node'    : '/amcl_pose',
         'msg'     : PoseWithCovarianceStamped,
-        'sleep'    : 0.2,
+        'sleep'   :  0.2,
         'callback': q2e,
     }, 
     # Motor state
     {
         'node'    : '/motor_state',
         'msg'     : MotorState,
-        'sleep'    : 3,
+        'sleep'   :  3,
     },
     # Sonar
     {
         'node'    : '/sonars',
         'msg'     : Range,
-        'sleep'    : 5,
+        'sleep'   : 5,
     }, 
     # ConnectionStatus
     {
         'node'    : '/connectionStatus',
         'msg'     : SignalInformation,
-        'sleep'    : 5,
+        'sleep'   : 5,
     }, 
     # NodesStatus
     {
         'node'    : '/nodesStatus',
         'msg'     : NodesInformation,
-        'sleep'    : 5,
+        'sleep'   : 5,
+        'callback': diffStore
     },
 ]
