@@ -77,6 +77,7 @@ def diffStore(data, node) -> None:
             print('Diff')
     # The file is void
     else:
+        print('null')
         file.write( bson.encode(document=_data))
 
     data = None
