@@ -18,10 +18,10 @@ from tf.transformations import euler_from_quaternion
 # The function should always only have one variable 'data', where 'data' is the received message converted to a document
 
 # Quaternion to euler callback
-def debug(data) -> None:
+def debug(data, node) -> None:
     print(data)
 
-def q2e(data) -> None:
+def q2e(data, node) -> None:
     # Get orientation
     orientation = data['pose']['pose']['orientation']
     # Convert
@@ -36,7 +36,7 @@ def q2e(data) -> None:
     data.update({'pose': {'pose': {'position': data['pose']['pose']['position'], 'orientation': orientation}}})
 
 # Store data just if is 
-def diffStore(data) -> None:
+def diffStore(data, node) -> None:
     # file = "/diag.bjson"
     print(data)
     # if not os.path.exists(path=path):

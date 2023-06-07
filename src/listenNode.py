@@ -115,7 +115,7 @@ class listenNodes:
             # If the node has a callback function it executes
             if args['callback'] != None:
                 # Execute the callback function
-                args['callback'](data)
+                args['callback'](data=data, node=args)
         except Exception as e:
             rospy.logerr("Error in callback function in the node" + args['node'])
             rospy.logerr("An exception occurred:", type(e).__name__,e.args)
