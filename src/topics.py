@@ -7,20 +7,35 @@ from config import *
 from nav_msgs.msg import *
 from sensor_msgs.msg import *
 from geometry_msgs.msg import *
+from ubiquity_motor.msg import *
 from ros_monitoring.msg import *
 
 # Other imports
 import os, bson, datetime
+from tf.transformations import euler_from_quaternion
 
 # ============== Callback function ============== #
 # The function should always only have one variable 'data', where 'data' is the received message converted to a document
 
-# Debug topic callback
+# Quaternion to euler callback
 def debug(data, topic) -> None:
     print(data)
-    print(topic)
-    
-# Store data just if is different
+
+def q2e(data, topic) -> None:
+    # Get orientation
+    orientation = data['pose']['pose']['orientation']
+    # Convert
+    (raw, pitch, yaw) = euler_from_quaternion([orientation['x'], orientation['y'], orientation['z'], orientation['w']])
+    # Add in a dictionary
+    orientation = {
+        'raw'     :  raw,
+        'pitch'   : pitch,
+        'yaw'     : yaw,
+    }
+    # Update the data to storage
+    data.update({'pose': {'pose': {'position': data['pose']['pose']['position'], 'orientation': orientation}}})
+
+# Store data just if is 
 def diffStore(data, topic) -> None:
     # Create a local data
     _data = data.copy()
@@ -90,7 +105,6 @@ TOPICS = [
     #     }
     # }
     #############################################################
-
     
     # ConnectionStatus
     {
@@ -104,5 +118,43 @@ TOPICS = [
         'msg'     : NodesInformation,
         'sleep'   : 5,
         'callback': diffStore
+    },
+    # Odometry
+    {
+        'topic'    : '/odom',
+        'msg'     : Odometry,
+        'sleep'   :  2,
+        'callback': q2e,
+    }, 
+    # Battery
+    {
+        'topic'    : '/battery_state',
+        'msg'     : BatteryState,
+        'sleep'   :  10,
+    }, 
+    # LiDAR
+    {
+        'topic'    : '/scan',
+        'msg'     : LaserScan,
+        'sleep'   : 5,
+    }, 
+    # AMCL_pos
+    {
+        'topic'    : '/amcl_pose',
+        'msg'     : PoseWithCovarianceStamped,
+        'sleep'   :  0.2,
+        'callback': q2e,
+    }, 
+    # Motor state
+    {
+        'topic'    : '/motor_state',
+        'msg'     : MotorState,
+        'sleep'   :  3,
+    },
+    # Sonar
+    {
+        'topic'    : '/sonars',
+        'msg'     : Range,
+        'sleep'   : 5,
     }
 ]
