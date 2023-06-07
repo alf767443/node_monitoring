@@ -46,6 +46,8 @@ It is a brach created for the AMR developed by the Research Centre in Digitaliza
 
 
 
+
+
 # Topics (*topics.py*)
 
 This file is a configuration file in which are described the topics that will be subscribed (**topic**), the message type (**msg**), the waiting time between captures (**sleep**), data manipulation function (**callback**), storage information (**dataSource, dataBase, collection**).
@@ -71,3 +73,12 @@ This file contains the settings of values robot name (**ROBOT_NAME**), database 
 	ROBOT_NAME  = 'New Robot'
 	DATALAKE    = "CeDRI_New_Robot"
 	CLIENT      = pymongo.MongoClient('mongodb://192.168.217.183:27017/')
+
+# More information
+
+This package was developed as part of the thesis for Master in Industrial Engineering with specialization in Electrical Engineering at Polytechnic Institute of Bragança (_IPB_), the work was developed at the Research Centre in Digitalization and Intelligent Robotics (_CeDRI_).
+The project consists of three repositories with the links below:
+	
+>https://github.com/alf767443/node_monitoring
+>https://github.com/alf767443/ros_monitoring
+>https://github.com/alf767443/UGV-dashboard
