@@ -39,6 +39,7 @@ def q2e(data, node) -> None:
 def diffStore(data, node) -> None:
     # file = "/diag.bjson"
     print(data)
+    print(node)
     # if not os.path.exists(path=path):
     #     os.chmod
     #     os.makedirs(name=path)
