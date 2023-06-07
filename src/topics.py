@@ -15,13 +15,13 @@ import os, bson, datetime
 # ============== Callback function ============== #
 # The function should always only have one variable 'data', where 'data' is the received message converted to a document
 
-# Debug node callback
-def debug(data, node) -> None:
+# Debug topic callback
+def debug(data, topic) -> None:
     print(data)
-    print(node)
+    print(topic)
     
 # Store data just if is different
-def diffStore(data, node) -> None:
+def diffStore(data, topic) -> None:
     # Create a local data
     _data = data.copy()
     _data.pop('dateTime')
@@ -42,7 +42,7 @@ def diffStore(data, node) -> None:
                 return False
         return True
     # Set file path and name, extension temporary JSON (.tjson)
-    file = PATH + str(node['node'].replace('/', '') + '.tjson')
+    file = PATH + str(topic['topic'].replace('/', '') + '.tjson')
     # Check if path exists
     if not os.path.exists(path=PATH):
         os.chmod
@@ -76,17 +76,17 @@ def diffStore(data, node) -> None:
 
 # ============== Nodes ============== #
 
-NODES = [
+TOPICS = [
     #############################################################
     # {
-    #     'node'    : --The node name,
+    #     'topic'    : --The topic name,
     #     'msg'     : --The type of message
     #     'sleep'   : --Sample time [optional, 1]
     #     'callback': --Callback function [optional, None]
     #     'dataPath': {
     #         'dataSource': --Name of data source in MongoDB [optional, config.DATASOURCE]
     #         'dataBase'  : --Name of data base in MongoDB [optional, config.DATALAKE]
-    #         'collection': --Name of collection in MongoDB [optional, node name]
+    #         'collection': --Name of collection in MongoDB [optional, topic name]
     #     }
     # }
     #############################################################
@@ -94,13 +94,13 @@ NODES = [
     
     # ConnectionStatus
     {
-        'node'    : '/connectionStatus',
+        'topic'    : '/connectionStatus',
         'msg'     : SignalInformation,
         'sleep'   : 5,
     }, 
     # NodesStatus
     {
-        'node'    : '/nodesStatus',
+        'topic'    : '/nodesStatus',
         'msg'     : NodesInformation,
         'sleep'   : 5,
         'callback': diffStore

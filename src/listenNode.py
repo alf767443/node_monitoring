@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-# Import nodes
-from nodes import NODES
+# Import topics
+from topics import TOPICS
 
 # Import config
 from config import *
@@ -12,22 +12,22 @@ from pymongo import errors as pymongo_erros
 from fractions import Fraction
 from datetime import datetime
 
-class listenNodes:
-    def __init__(self, NODES) -> None:
+class listenTopics:
+    def __init__(self, TOPICS) -> None:
         # Starts unique node in the ROS core with the name listenNode
-        rospy.init_node('listenNodes', anonymous=False)
-        rospy.loginfo("Listen ROS nodes started")
-        # Reads out the list of nodes present in the file nodes.py
-        self.NODES = self.fillNode(nodes=NODES)
-        # Set up the subscribers for each item in NODES
-        for node in self.NODES:
+        rospy.init_node('listenTopics', anonymous=False)
+        rospy.loginfo("Listen ROS topics started")
+        # Reads out the list of topics present in the file topics.py
+        self.TOPICS = self.fillNode(topics=TOPICS)
+        # Set up the subscribers for each item in TOPICS
+        for topic in self.TOPICS:
             try:
                 # Creates the subscriber
-                self.newSubscriber(node=node)
+                self.newSubscriber(topic=topic)
             except Exception as e:
-                rospy.logerr("Error in node.py in the node" + node['node'])
+                rospy.logerr("Error in topic.py in the topic" + topic['topic'])
                 rospy.logerr("An exception occurred:", type(e).__name__,e.args)
-        # Keeps the node active
+        # Keeps the topic active
         rospy.spin()
 
 # Create a random string
@@ -37,9 +37,9 @@ class listenNodes:
 
 
 # Fill Nodes default info 
-    def fillNode(self, nodes):
+    def fillNode(self, topics):
         # Deafult values
-        def defaultValues(node):
+        def defaultValues(topic):
             # Create the default values dictionary
             try:
                 _return = {
@@ -48,7 +48,7 @@ class listenNodes:
                     'dataPath': {
                         'dataSource': DATASOURCE,       # Add DATASOURCE of config.py
                         'dataBase'  : DATALAKE,         # Add DATALAKE of config.py
-                        'collection': node['node']      # Collection name is the same of of node name
+                        'collection': topic['topic']      # Collection name is the same of of topic name
                     }
                 }
                 return _return
@@ -75,33 +75,33 @@ class listenNodes:
                     rospy.logerr("An exception occurred:", type(e).__name__,e.args)
         # Copy Nodes
         try:
-            _nodes = nodes.copy()
+            _nodes = topics.copy()
         except Exception as e:
-            rospy.logerr("Error in copy of NODES")
+            rospy.logerr("Error in copy of TOPICS")
             rospy.logerr("An exception occurred:", type(e).__name__,e.args)
         # Run for all codes        
-        for node in _nodes:
+        for topic in _nodes:
             try:
-                update_nested_dict(defaultValues(node=node), node)
+                update_nested_dict(defaultValues(topic=topic), topic)
             except Exception as e:
-                rospy.logerr("Error in set values of:", node)
+                rospy.logerr("Error in set values of:", topic)
                 rospy.logerr("An exception occurred:", type(e).__name__,e.args)
         return _nodes
                
 # Create new subscriber
-    def newSubscriber(self, node): 
+    def newSubscriber(self, topic): 
         try:    
-            # Uses the information in the node dictionary to create a subscriber
-            rospy.Subscriber(name=node['node'], data_class=node['msg'], callback=self.callback, callback_args=node, queue_size=1)
+            # Uses the information in the topic dictionary to create a subscriber
+            rospy.Subscriber(name=topic['topic'], data_class=topic['msg'], callback=self.callback, callback_args=topic, queue_size=1)
 
-            rospy.loginfo("Subscriber to the node " + node['node'] + " create")
+            rospy.loginfo("Subscriber to the topic " + topic['topic'] + " create")
             return True
         except Exception as e:
-            rospy.logerr("Error in the creation of subscriber in the node" + node['node'])
+            rospy.logerr("Error in the creation of subscriber in the topic" + topic['topic'])
             rospy.logerr("An exception occurred:", type(e).__name__,e.args)
             return False
         
-# Callback to the node
+# Callback to the topic
     def callback(self, msg, args):
         try:
             # Gets the message data
@@ -109,15 +109,15 @@ class listenNodes:
             # Adds the date 
             data.update({'dateTime': datetime.now(), 'robot': ROBOT_NAME})
         except Exception as e:
-            rospy.logerr("Error to convert the mensage in the node" + args['node'])
+            rospy.logerr("Error to convert the mensage in the topic" + args['topic'])
             rospy.logerr("An exception occurred:", type(e).__name__,e.args)
         try:
-            # If the node has a callback function it executes
+            # If the topic has a callback function it executes
             if args['callback'] != None:
                 # Execute the callback function
-                args['callback'](data=data, node=args)
+                args['callback'](data=data, topic=args)
         except Exception as e:
-            rospy.logerr("Error in callback function in the node" + args['node'])
+            rospy.logerr("Error in callback function in the topic" + args['topic'])
             rospy.logerr("An exception occurred:", type(e).__name__,e.args)
         if isinstance(data, (dict, list)) and data != {}:
             try:
@@ -236,6 +236,6 @@ class listenNodes:
 
 if __name__ == '__main__':
     try:
-        listenNodes(NODES=NODES)
+        listenTopics(TOPICS=TOPICS)
     except rospy.ROSInterruptException:
         pass
