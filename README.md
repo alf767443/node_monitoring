@@ -32,7 +32,7 @@ It is a brach created for the AMR developed by the Research Centre in Digitaliza
 	git clone -b MagniSilver_CeDRI  https://github.com/alf767443/node_monitoring.git
 ### Configuration
 >ROBOT_NAME  =  'bigCedDRI'
->DATALAKE   =  'CeDRI_Magni
+>DATALAKE   =  'CeDRI_Magni'
 >
 ### Topics
  - /amcl_pose
@@ -44,6 +44,25 @@ It is a brach created for the AMR developed by the Research Centre in Digitaliza
  - /scan
  - /sonars
 
+
+## TelloEdu of CeDRI
+
+This branch was created for the DJI TelloEdu drone, which uses *tello_drive*.
+	
+	git clone -b TelloEdu  https://github.com/alf767443/node_monitoring.git
+	
+### Configuration
+>ROBOT_NAME  =  'Tello_01'
+>DATALAKE   =  'CeDRI_TelloEdu'
+>
+### Topics
+ - /connectionStatus
+ - /nodesStatus
+ - /tello/imu
+ - /tello/image_raw/camera_info
+ - /tello/image_raw/h264
+ - /tello/odom
+ - /tello/status
 
 
 
