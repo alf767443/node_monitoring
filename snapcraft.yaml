@@ -11,7 +11,7 @@ parts:
     plugin: catkin
     source: https://github.com/alf767443/node_monitoring.git
     source-branch: main
-    catkin-packages: [node_monitoring]d
+    catkin-packages: [node_monitoring]
     stage-packages:
       - ros-noetic-rospy
       - python3-pymongo
