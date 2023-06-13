@@ -17,7 +17,8 @@ parts:
       - python3-pymongo
       - python3-bson
     catkin-pre-build-commands:
-      - sudo sh -c "echo 'deb https://raw.githubusercontent.com/ros/rosdistro/master/rosdep/sources.list.d/20-default.list focal main' > /etc/apt/sources.list.d/ros-latest.list"
+      - sudo sh -c "echo 'deb http://packages.ros.org/ros/ubuntu focal main' > /etc/apt/sources.list.d/ros-latest.list"
+
 
 
 apps:
