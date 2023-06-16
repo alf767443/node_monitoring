@@ -37,9 +37,6 @@ def q2e(data, topic) -> None:
 
 # Store data just if is 
 def diffStore(data, topic) -> None:
-    # Create a local data
-    _data = data.copy()
-    _data.pop('dateTime')
     # Compare dictionaries
     def compare_dict(dict1, dict2)->bool:
         # Check size of the dicts
@@ -56,36 +53,45 @@ def diffStore(data, topic) -> None:
             elif dict2[key] != value:
                 return False
         return True
+    # Write a BSON in a binary file
+    def writeBfile(data, path):
+        file = open(file=path, mode='bw+')
+        file.write(bson.encode(document=data))
+        file.close()
+
+    # Create a local data
+    _data = data.copy()
+    _data.pop('dateTime')
     # Set file path and name, extension temporary JSON (.tjson)
-    file = PATH + str(topic['topic'].replace('/', '') + '.tjson')
+    filePath = PATH + str(topic['topic'].replace('/', '') + '.tjson')
     # Check if path exists
     if not os.path.exists(path=PATH):
         os.chmod
         os.makedirs(name=PATH)
     # Open file
-    if not os.path.exists(path=file):
-        file = open(file=file, mode='bw+')
+    if not os.path.exists(path=filePath):
+        file = open(file=filePath, mode='bw+')
     else:
-        file = open(file=file, mode='br+')
+        file = open(file=filePath, mode='br+')
     # Read the file
     _file = file.read()
+    file.close()
     # Compare 'data' with the data in file
     if not _file == b'':
         # Decode the bson 
         try:
             _file = bson.BSON.decode(_file)
         except bson.errors.InvalidBSON:
-            file.write(bson.encode(document=_data))
-            file.close()
+            writeBfile(data=_data, path=filePath)
             return None            
         # Compare the dictionaries
         if compare_dict(_data, _file):
             data.clear()
         else:
-            file.write(bson.encode(document=_data))
+            writeBfile(data=_data, path=filePath)
     # The file is void
     else:
-        file.write(bson.encode(document=_data))
+        writeBfile(data=_data, path=filePath)
     # Close file
     file.close()
 
