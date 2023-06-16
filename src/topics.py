@@ -7,11 +7,13 @@ from config import *
 import defaultCallbacks as dc
 
 # Messages
-from nav_msgs.msg       import *
-from sensor_msgs.msg    import *
-from geometry_msgs.msg  import *
-from ubiquity_motor.msg import *
-from ros_monitoring.msg import *
+from nav_msgs.msg             import *
+from sensor_msgs.msg          import *
+from geometry_msgs.msg        import *
+from ros_monitoring.msg       import *
+from ros_monitoring.msg       import *
+from tello_driver.msg         import *
+from h264_image_transport.msg import *
 
 # Other imports
 import os, bson, datetime
@@ -27,21 +29,6 @@ import os, bson, datetime
  # def debug(data, topic) -> None:
  #     print(data)
  #############################################################
-
-def q2e(data) -> None:
-    # Get orientation
-    orientation = data['pose']['pose']['orientation']
-    # Convert
-    (raw, pitch, yaw) = euler_from_quaternion([orientation['x'], orientation['y'], orientation['z'], orientation['w']])
-    # Add in a dictionary
-    orientation = {
-        'raw'     :  raw,
-        'pitch'   : pitch,
-        'yaw'     : yaw,
-    }
-    # Update the data to storage
-    data.update({'pose': {'pose': {'position': data['pose']['pose']['position'], 'orientation': orientation}}})
-
 
 # ============== Nodes ============== #
 
@@ -59,55 +46,44 @@ TOPICS = [
     #     }
     # }
     #############################################################
+    
     # ConnectionStatus
     {
-        'topic'   : '/connectionStatus',
+        'topic'    : '/connectionStatus',
         'msg'     : SignalInformation,
         'sleep'   : 5,
     }, 
     # NodesStatus
     {
-        'topic'   : '/nodesStatus',
+        'topic'    : '/nodesStatus',
         'msg'     : NodesInformation,
         'sleep'   : 5,
         'callback': dc.diffStore
-    },
+    }
     # Odometry
     {
-        'topic'   : '/odom',
+        'node'    : '/tello/odom',
         'msg'     : Odometry,
-        'sleep'   :  2,
         'callback': dc.q2e,
-    }, 
-    # Battery
-    {
-        'topic'   : '/battery_state',
-        'msg'     : BatteryState,
-        'sleep'   : 10,
-    }, 
-    # LiDAR
-    {
-        'topic'   : '/scan',
-        'msg'     : LaserScan,
-        'sleep'   : 5,
-    }, 
-    # AMCL_pos
-    {
-        'topic'   : '/amcl_pose',
-        'msg'     : PoseWithCovarianceStamped,
-        'sleep'   : 0.2,
-        'callback': dc.q2e,
-    }, 
-    # Motor state
-    {
-        'topic'   : '/motor_state',
-        'msg'     : MotorState,
-        'sleep'   : 3,
     },
-    # Sonar
+    # Statues
     {
-        'topic'   : '/sonars',
-        'msg'     : Range,
-        'sleep'   : 5,
+        'node'    : '/tello/status',
+        'msg'     : TelloStatus,
+    },
+    # Inertial Sensor Modules
+    {
+        'node'    : '/tello/imu',
+        'msg'     : Imu,
+    },
+    # Camera info
+    {
+        'node'    : '/tello/image_raw/camera_info',
+        'msg'     : CameraInfo,
+    },
+    # Image RAW
+    {
+        'node'    : '/tello/image_raw/h264',
+        'msg'     : H264Packet,
     }
 ]
