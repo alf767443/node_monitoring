@@ -4,12 +4,12 @@
 from config import *
 
 # Import default callback funcitions
-import  defaultCallbacks as dc
+import defaultCallbacks as dc
 
 # Messages
-from nav_msgs.msg import *
-from sensor_msgs.msg import *
-from geometry_msgs.msg import *
+from nav_msgs.msg       import *
+from sensor_msgs.msg    import *
+from geometry_msgs.msg  import *
 from ubiquity_motor.msg import *
 from ros_monitoring.msg import *
 
