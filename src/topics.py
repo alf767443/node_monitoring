@@ -28,21 +28,6 @@ import os, bson, datetime
  #     print(data)
  #############################################################
 
-def q2e(data) -> None:
-    # Get orientation
-    orientation = data['pose']['pose']['orientation']
-    # Convert
-    (raw, pitch, yaw) = euler_from_quaternion([orientation['x'], orientation['y'], orientation['z'], orientation['w']])
-    # Add in a dictionary
-    orientation = {
-        'raw'     :  raw,
-        'pitch'   : pitch,
-        'yaw'     : yaw,
-    }
-    # Update the data to storage
-    data.update({'pose': {'pose': {'position': data['pose']['pose']['position'], 'orientation': orientation}}})
-
-
 # ============== Nodes ============== #
 
 TOPICS = [
