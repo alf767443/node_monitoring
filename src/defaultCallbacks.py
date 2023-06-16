@@ -1,7 +1,11 @@
+# Import config
+from config import *
+
+# Other imports
 from tf.transformations import euler_from_quaternion
 
 # Default callback function to topics
-# Debug function
+## Debug function
 def debug(data, topic) -> None:
     print(data)
 
