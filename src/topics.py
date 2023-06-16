@@ -7,6 +7,7 @@ from config import *
 from nav_msgs.msg import *
 from sensor_msgs.msg import *
 from geometry_msgs.msg import *
+from ubiquity_motor.msg import *
 from ros_monitoring.msg import *
 from tello_driver.msg import *
 from h264_image_transport.msg import *
@@ -18,16 +19,26 @@ from tf.transformations import euler_from_quaternion
 # ============== Callback function ============== #
 # The function should always only have one variable 'data', where 'data' is the received message converted to a document
 
-# Debug topic callback
+# Quaternion to euler callback
 def debug(data, topic) -> None:
     print(data)
-    print(topic)
-    
-# Store data just if is different
+
+def q2e(data, topic) -> None:
+    # Get orientation
+    orientation = data['pose']['pose']['orientation']
+    # Convert
+    (raw, pitch, yaw) = euler_from_quaternion([orientation['x'], orientation['y'], orientation['z'], orientation['w']])
+    # Add in a dictionary
+    orientation = {
+        'raw'     :  raw,
+        'pitch'   : pitch,
+        'yaw'     : yaw,
+    }
+    # Update the data to storage
+    data.update({'pose': {'pose': {'position': data['pose']['pose']['position'], 'orientation': orientation}}})
+
+# Store data just if is 
 def diffStore(data, topic) -> None:
-    # Create a local data
-    _data = data.copy()
-    _data.pop('dateTime')
     # Compare dictionaries
     def compare_dict(dict1, dict2)->bool:
         # Check size of the dicts
@@ -44,36 +55,45 @@ def diffStore(data, topic) -> None:
             elif dict2[key] != value:
                 return False
         return True
+    # Write a BSON in a binary file
+    def writeBfile(data, path):
+        file = open(file=path, mode='bw+')
+        file.write(bson.encode(document=data))
+        file.close()
+
+    # Create a local data
+    _data = data.copy()
+    _data.pop('dateTime')
     # Set file path and name, extension temporary JSON (.tjson)
-    file = PATH + str(topic['topic'].replace('/', '') + '.tjson')
+    filePath = PATH + str(topic['topic'].replace('/', '') + '.tjson')
     # Check if path exists
     if not os.path.exists(path=PATH):
         os.chmod
         os.makedirs(name=PATH)
     # Open file
-    if not os.path.exists(path=file):
-        file = open(file=file, mode='bw+')
+    if not os.path.exists(path=filePath):
+        file = open(file=filePath, mode='bw+')
     else:
-        file = open(file=file, mode='br+')
+        file = open(file=filePath, mode='br+')
     # Read the file
     _file = file.read()
+    file.close()
     # Compare 'data' with the data in file
     if not _file == b'':
         # Decode the bson 
         try:
             _file = bson.BSON.decode(_file)
         except bson.errors.InvalidBSON:
-            file.write(bson.encode(document=_data))
-            file.close()
+            writeBfile(data=_data, path=filePath)
             return None            
         # Compare the dictionaries
         if compare_dict(_data, _file):
             data.clear()
         else:
-            file.write(bson.encode(document=_data))
+            writeBfile(data=_data, path=filePath)
     # The file is void
     else:
-        file.write(bson.encode(document=_data))
+        writeBfile(data=_data, path=filePath)
     # Close file
     file.close()
 
@@ -108,7 +128,19 @@ TOPICS = [
     #     }
     # }
     #############################################################
-   
+    # ConnectionStatus
+    {
+        'topic'    : '/connectionStatus',
+        'msg'     : SignalInformation,
+        'sleep'   : 5,
+    }, 
+    # NodesStatus
+    {
+        'topic'    : '/nodesStatus',
+        'msg'     : NodesInformation,
+        'sleep'   : 5,
+        'callback': diffStore
+    },
     # Odometry
     {
         'node'    : '/tello/odom',
@@ -135,17 +167,4 @@ TOPICS = [
         'node'    : '/tello/image_raw/h264',
         'msg'     : H264Packet,
     },
-    # ConnectionStatus
-    {
-        'topic'    : '/connectionStatus',
-        'msg'     : SignalInformation,
-        'sleep'   : 5,
-    }, 
-    # NodesStatus
-    {
-        'topic'    : '/nodesStatus',
-        'msg'     : NodesInformation,
-        'sleep'   : 5,
-        'callback': diffStore
-    }
 ]

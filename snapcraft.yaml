@@ -1,0 +1,27 @@
+name: cedri-node-monitoring
+version: '0.1'
+summary: ROS node_monitoring from CeDRI
+description: This ROS package is intended to collect data from topics, transform, store, manage and send them to a MongoDB server. Being designed to maintain the collection even in connection drops with the server.
+
+confinement: devmode
+base: core20
+
+parts:
+  ros-package:
+    plugin: catkin
+    source: https://github.com/alf767443/node_monitoring.git
+    source-branch: main
+    catkin-packages: [node_monitoring]
+    stage-packages:
+      - ros-noetic-rospy
+      - python3-pymongo
+      - python3-bson
+    catkin-pre-build-commands:
+      - sudo sh -c "echo 'deb http://packages.ros.org/ros/ubuntu focal main' > /etc/apt/sources.list.d/ros-latest.list"
+
+
+
+apps:
+  cedri-node-monitoring:
+    command: opt/ros/noetic/bin/roslaunch node_monitoring your_launch_file.launch 
+    extensions: [ros1-noetic]
