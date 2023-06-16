@@ -12,6 +12,7 @@ from pymongo import errors as pymongo_erros
 from fractions import Fraction
 from datetime import datetime
 
+# Listen topic class
 class listenTopics:
     def __init__(self, TOPICS) -> None:
         # Starts unique node in the ROS core with the name listenNode
@@ -233,9 +234,9 @@ class listenTopics:
         else:
             return v
 
-
 if __name__ == '__main__':
     try:
         listenTopics(TOPICS=TOPICS)
     except rospy.ROSInterruptException:
         pass
+
