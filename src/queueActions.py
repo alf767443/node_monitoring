@@ -14,28 +14,6 @@ from std_msgs.msg import String
 # Define default action collection
 COLL = '/actions'
 
-pipeline = {
-    'Status_0|1' : [
-        {
-            '$match': {
-                'status': {
-                    '$lt': 1
-                }
-            }
-        }, {
-            '$sort': {
-                'dateTime': -1
-            }
-        }
-    ]
-}
-
-dataPath = {
-    'dataSource': Source.CeDRI_UGV, 
-    'dataBase'  : db.dataLake,
-    'collection': col.Actions
-}
-
 # Queue action class
 class queueActions:
 
