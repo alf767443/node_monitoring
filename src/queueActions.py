@@ -89,10 +89,12 @@ class queueActions:
             _command = action['command']
             rospy.loginfo("Run command " + _command)
             result = subprocess.Popen(_command, shell=True)
-            rospy.loginfo("return = " + str(result))
+            rospy.loginfo("Send")
+            action['status'] = 'runned'
         except Exception as e:
             rospy.logerr("Error in the execution of " + str(action))
             rospy.logerr("An exception occurred:", type(e).__name__,e.args)
+            action['status'] = 'error'
             
     # Add action to the queue
     def add2LocalQueue(self, data):
