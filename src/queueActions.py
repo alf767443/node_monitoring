@@ -75,7 +75,7 @@ class queueActions:
         except Exception as e:
             rospy.logerr("Error on parse a new action")
             rospy.logerr("An exception occurred:", type(e).__name__,e.args)
-        # Add the action to tghe local queue
+        # Add the action to the local queue
         try: 
             self.add2LocalQueue(_data)
         except Exception as e:
@@ -88,7 +88,7 @@ class queueActions:
         try:
             _command = action['command']
             rospy.loginfo("Run command " + _command)
-            result = subprocess.call(_command, shell=True)
+            result = subprocess.Popen(_command, shell=True)
             rospy.loginfo("return = " + str(result))
         except Exception as e:
             rospy.logerr("Error in the execution of " + str(action))
