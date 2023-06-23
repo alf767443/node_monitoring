@@ -124,7 +124,7 @@ class queueActions:
         for document in content:
             # Try send to the cloud
             try:
-                _result = CLIENT[DATALAKE][COLL].find_one_and_update(filter={'_id': content['_id']},update=document, upsert=True)
+                _result = CLIENT[DATALAKE][COLL].find_one_and_update(filter={'_id': document['_id']},update=document, upsert=True)
                 # If document is not in 'wait' delete
                 if not _result['status'] == 'wait':                    
                     content.remove(document)
