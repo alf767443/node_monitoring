@@ -130,7 +130,7 @@ class queueActions:
                 # If document is not in 'wait' delete
                 if not _result['status'] == 'wait':                    
                     content.remove(document)
-                    rospy.rospy.loginfo("Remove action from queue: " + str(document))
+                    rospy.loginfo("Remove action from queue: " + str(document))
             except Exception as e:
                 rospy.logerr("Error on send document to cloud: " + str(document) )
                 rospy.logerr("An exception occurred:", type(e).__name__,e.args)
