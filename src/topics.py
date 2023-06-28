@@ -7,13 +7,10 @@ from config import *
 import defaultCallbacks as dc
 
 # Messages
-from nav_msgs.msg             import *
-from sensor_msgs.msg          import *
-from geometry_msgs.msg        import *
-from ros_monitoring.msg       import *
-from ros_monitoring.msg       import *
-from tello_driver.msg         import *
-from h264_image_transport.msg import *
+from nav_msgs.msg       import *
+from sensor_msgs.msg    import *
+from geometry_msgs.msg  import *
+from ros_monitoring.msg import *
 
 # Other imports
 import os, bson, datetime
@@ -59,31 +56,5 @@ TOPICS = [
         'msg'     : NodesInformation,
         'sleep'   : 5,
         'callback': dc.diffStore
-    }
-    # Odometry
-    {
-        'node'    : '/tello/odom',
-        'msg'     : Odometry,
-        'callback': dc.q2e,
-    },
-    # Statues
-    {
-        'node'    : '/tello/status',
-        'msg'     : TelloStatus,
-    },
-    # Inertial Sensor Modules
-    {
-        'node'    : '/tello/imu',
-        'msg'     : Imu,
-    },
-    # Camera info
-    {
-        'node'    : '/tello/image_raw/camera_info',
-        'msg'     : CameraInfo,
-    },
-    # Image RAW
-    {
-        'node'    : '/tello/image_raw/h264',
-        'msg'     : H264Packet,
     }
 ]
