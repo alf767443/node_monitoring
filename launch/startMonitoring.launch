@@ -2,4 +2,5 @@
     <master auto="start"/>
     <node pkg="node_monitoring" type="listenNode.py" name="listenNode" output="screen" respawn="false" />
     <node pkg="node_monitoring" type="bufferManager.py" name="bufferManager" output="screen" respawn="false" />
+    <node pkg="node_monitoring" type="queueActions.py" name="bufferManager" output="screen" respawn="false" />
 </launch>
