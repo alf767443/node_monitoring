@@ -43,15 +43,16 @@ TOPICS = [
     #     }
     # }
     #############################################################
+    
     # ConnectionStatus
     {
-        'topic'   : '/connectionStatus',
+        'topic'    : '/connectionStatus',
         'msg'     : SignalInformation,
         'sleep'   : 5,
     }, 
     # NodesStatus
     {
-        'topic'   : '/nodesStatus',
+        'topic'    : '/nodesStatus',
         'msg'     : NodesInformation,
         'sleep'   : 5,
         'callback': dc.diffStore
