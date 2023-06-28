@@ -10,6 +10,7 @@ import defaultCallbacks as dc
 from nav_msgs.msg       import *
 from sensor_msgs.msg    import *
 from geometry_msgs.msg  import *
+from ubiquity_motor.msg import *
 from ros_monitoring.msg import *
 
 # Other imports
@@ -47,7 +48,6 @@ TOPICS = [
     {
         'topic'   : '/connectionStatus',
         'msg'     : SignalInformation,
-        'sleep'   : 5,
     }, 
     # NodesStatus
     {
@@ -55,5 +55,40 @@ TOPICS = [
         'msg'     : NodesInformation,
         'sleep'   : 5,
         'callback': dc.diffStore
+    },
+    # Odometry
+    {
+        'topic'   : '/odom',
+        'msg'     : Odometry,
+        'callback': dc.q2e,
+    }, 
+    # Battery
+    {
+        'topic'   : '/battery_state',
+        'msg'     : BatteryState,
+        'sleep'   : 5,
+    }, 
+    # LiDAR
+    {
+        'topic'   : '/scan',
+        'msg'     : LaserScan,
+        'sleep'   : 5,
+    }, 
+    # AMCL_pos
+    {
+        'topic'   : '/amcl_pose',
+        'msg'     : PoseWithCovarianceStamped,
+        'callback': dc.q2e,
+    }, 
+    # Motor state
+    {
+        'topic'   : '/motor_state',
+        'msg'     : MotorState,
+    },
+    # Sonar
+    {
+        'topic'   : '/sonars',
+        'msg'     : Range,
+        'sleep'   : 5,
     }
 ]

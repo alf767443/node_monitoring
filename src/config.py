@@ -7,7 +7,7 @@ PATH = os.path.expanduser('~')+'/tempData/'
 
 #============ Mongo ============#
 ROBOT_NAME = 'bigBlue'
-DATALAKE = "CeDRI_Magni"
+DATALAKE   = "CeDRI_Magni"
 DATASOURCE = "CeDRI_robots"
 CLIENT = pymongo.MongoClient('mongodb://192.168.217.183:27017/', 
                              connectTimeoutMS = 500, 
