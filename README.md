@@ -10,7 +10,7 @@ To install this ROS package:
 
 	cd ~/catkin_ws/src
 	git clone https://github.com/alf767443/node_monitoring.git
-	sudo chmod +x src/bufferManager.py src/listenNode.py
+	sudo chmod +x src/bufferManager.py src/listenNode.py src/queueActions.py
 	cd ..
 	catkin_make
 
