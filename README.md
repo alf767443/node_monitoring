@@ -27,7 +27,7 @@ as described in the subtopics below:
 
 ## Magni Silver robotic platform of CeDRI
 
-It is a brach created for the AMR developed by the Research Centre in Digitalization and Intelligent Robotics (_CeDRI_), based on the Magni Silver robotics platform from Ubiquity Robotics.
+It is a branch created for the AMR developed by the Research Centre in Digitalization and Intelligent Robotics (_CeDRI_), based on the Magni Silver robotics platform from Ubiquity Robotics.
 	
 	git clone -b MagniSilver_CeDRI  https://github.com/alf767443/node_monitoring.git
 ### Configuration
@@ -71,7 +71,7 @@ This branch was created for the DJI TelloEdu drone, which uses *tello_drive*.
 
 # Topics (*topics.py*)
 
-This file is a configuration file in which are described the topics that will be subscribed (**topic**), the message type (**msg**), the waiting time between captures (**sleep**), data manipulation function (**callback**), storage information (**dataSource, dataBase, collection**).
+This file is a configuration file in which are described the topics that will be subscribed (**topic**), the message type (**msg**), the waiting time between captures (**sleep**), the data manipulation function (**callback**), storage information (**dataSource, dataBase, collection**).
 ## Structure
 
 	{
@@ -86,7 +86,7 @@ This file is a configuration file in which are described the topics that will be
 		}
 	}
 
-# Configurations (config.py)
+# Configurations (*config.py*)
 
 This file contains the settings of values robot name (**ROBOT_NAME**), database (**DATALAKE**), MongoDB server address (**CLIENT**) and buffer path (**PATH**).
 ## Structure
@@ -97,7 +97,7 @@ This file contains the settings of values robot name (**ROBOT_NAME**), database 
 
 # More information
 
-This package was developed as part of the thesis for Master in Industrial Engineering with specialization in Electrical Engineering at Polytechnic Institute of Bragança (_IPB_), the work was developed at the Research Centre in Digitalization and Intelligent Robotics (_CeDRI_).
+This package was developed as part of the thesis for a Master in Industrial Engineering with a specialization in Electrical Engineering at the Polytechnic Institute of Bragança (_IPB_), the work was developed at the Research Centre in Digitalization and Intelligent Robotics (_CeDRI_).
 The project consists of three repositories with the links below:
 	
 >https://github.com/alf767443/node_monitoring
