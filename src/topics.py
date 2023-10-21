@@ -65,12 +65,13 @@ TOPICS = [
         'msg'     : CameraInfo,
         'sleep'   : 0.2
     },
+    ## Listening to the image compressed
     # /camera/image_raw
-    {
-        'topic'   : '/camera/image_raw',
-        'msg'     : Image,
-        'sleep'   : 0.2
-    },
+    # {
+    #     'topic'   : '/camera/image_raw',
+    #     'msg'     : Image,
+    #     'sleep'   : 0.2
+    # },
     # /camera/image_raw/compressed
     {
         'topic'   : '/camera/image_raw/compressed',
@@ -413,12 +414,13 @@ TOPICS = [
         'msg'     : PointCloud2,
         'sleep'   : 0.2
     },
+    ## File oversize
     # /map
-    {
-        'topic'   : '/map',
-        'msg'     : OccupancyGrid,
-        'sleep'   : 0.2
-    },
+    # {
+    #     'topic'   : '/map',
+    #     'msg'     : OccupancyGrid,
+    #     'sleep'   : 0.2
+    # },
     # /map_metadata
     {
         'topic'   : '/map_metadata',
@@ -497,12 +499,13 @@ TOPICS = [
         'msg'     : MoveBaseActionFeedback,
         'sleep'   : 0.2
     },
+    ## File oversize
     # /move_base/global_costmap/costmap
-    {
-        'topic'   : '/move_base/global_costmap/costmap',
-        'msg'     : OccupancyGrid,
-        'sleep'   : 0.2
-    },
+    # {
+    #     'topic'   : '/move_base/global_costmap/costmap',
+    #     'msg'     : OccupancyGrid,
+    #     'sleep'   : 0.2
+    # },
     # /move_base/global_costmap/costmap_updates
     {
         'topic'   : '/move_base/global_costmap/costmap_updates',
