@@ -152,7 +152,7 @@ class listenTopics:
             # Create data string
             data = bson.encode(document={'dataPath': dataPath, 'content': content})
             # Create the file name
-            fileName =  datetime.strftime(datetime.now(),"%Y%m%d%H%M%S_%f")+'_'+self.randomString(size=10)
+            fileName =  dataPath['collection'].replace('/', '_') + datetime.strftime(datetime.now(),"%Y%m%d%H%M%S_%f")+'_'+self.randomString(size=10)
             # Define the extension
             extencion = '.cjson'
             # Create the extension
