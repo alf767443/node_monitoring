@@ -93,8 +93,9 @@ class listenTopics:
     def newSubscriber(self, topic): 
         try:    
             # Uses the information in the topic dictionary to create a subscriber
-            rospy.Subscriber(name=topic['topic'], data_class=topic['msg'], callback=self.callback, callback_args=topic, queue_size=1)
-
+            subcriber = rospy.Subscriber(name=topic['topic'], data_class=topic['msg'], callback=self.callback, callback_args=topic, queue_size=1)
+            # Create a pointer to the subscriber
+            topic['subcriber'] = subcriber
             rospy.loginfo("Subscriber to the topic " + topic['topic'] + " create")
             return True
         except Exception as e:
@@ -128,6 +129,10 @@ class listenTopics:
                         self.createFile(dataPath=args['dataPath'], content=data)     
                 else:
                     self.createFile(dataPath=args['dataPath'], content=data)     
+            except pymongo_erros.DocumentTooLarge:
+                args['subcriber'].unregister()
+                rospy.logwarn(f"The message from {args['topic']} is too large to store.\nRemove the this topic from listen list")
+                return True
             except (pymongo_erros.ConnectionFailure, pymongo_erros.ServerSelectionTimeoutError):
                 # Create the storage file
                 self.createFile(dataPath=args['dataPath'], content=data)
@@ -189,9 +194,6 @@ class listenTopics:
             if not isinstance(content, list):
                 content = [content]
             return CLIENT[dataPath['dataBase']][dataPath['collection']].insert_many(content).acknowledged
-        except pymongo_erros.DocumentTooLarge:
-            rospy.logwarn(f"The message from {dataPath['collection']} is too large to store.")
-            return True
         except pymongo_erros.DuplicateKeyError:
             # If the register duplicate
             return True
