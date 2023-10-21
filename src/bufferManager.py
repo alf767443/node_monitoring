@@ -93,6 +93,9 @@ class bufferManager():
             if not isinstance(content, list):
                 content = [content]
             return CLIENT[dataPath['dataBase']][dataPath['collection']].insert_many(content).acknowledged
+        except pymongo_erros.DocumentTooLarge:
+            rospy.logwarn(f"The message from {dataPath['collection']} is too large to store.")
+            return True
         except pymongo_erros.DuplicateKeyError:
             # If the register duplicate
             return True
@@ -100,7 +103,6 @@ class bufferManager():
             rospy.logerr("Error when update to cloud")
             rospy.logerr("An exception occurred:", type(e).__name__,e.args)
             return False
-
 
 if __name__ == '__main__':
     try:
