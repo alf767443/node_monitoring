@@ -189,6 +189,9 @@ class listenTopics:
             if not isinstance(content, list):
                 content = [content]
             return CLIENT[dataPath['dataBase']][dataPath['collection']].insert_many(content).acknowledged
+        except pymongo.errors.DocumentTooLarge:
+            rospy.logwarn(f"The message from {dataPath['collection']} is too large to store.")
+            return True
         except pymongo_erros.DuplicateKeyError:
             # If the register duplicate
             return True
