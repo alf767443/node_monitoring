@@ -18,6 +18,7 @@ class listenTopics:
         # Starts unique node in the ROS core with the name listenNode
         rospy.init_node('listenTopics', anonymous=False)
         rospy.loginfo("Listen ROS topics started")
+        rate = rospy.Rate(1)
         # Reads out the list of topics present in the file topics.py
         self.TOPICS = self.fillNode(topics=TOPICS)
         # Set up the subscribers for each item in TOPICS
@@ -96,6 +97,7 @@ class listenTopics:
             subcriber = rospy.Subscriber(name=topic['topic'], data_class=topic['msg'], callback=self.callback, callback_args=topic, queue_size=1)
             # Create a pointer to the subscriber
             topic['subcriber'] = subcriber
+            topic['_lastTime'] = 0
             rospy.loginfo("Subscriber to the topic " + topic['topic'] + " create")
             return True
         except Exception as e:
@@ -105,6 +107,12 @@ class listenTopics:
         
 # Callback to the topic
     def callback(self, msg, args):
+        # try:
+        #     _delta = float(msg.header.stamp.secs) + float(msg.header.stamp.secs)*1e-9 - args['_lastTime']
+        #     if _delta < args['sleep']:
+        #         return False
+        # except:
+        #     print(args)
         try:
             # Gets the message data
             data = self.msg2document(msg=msg)
@@ -121,6 +129,8 @@ class listenTopics:
         except Exception as e:
             rospy.logerr("Error in callback function in the topic" + args['topic'])
             rospy.logerr("An exception occurred:", type(e).__name__,e.args)
+        # finally:
+        #     args['_lastTime'] = float(msg.header.stamp.secs) + float(msg.header.stamp.secs)*1e-9
         if isinstance(data, (dict, list)) and data != {}:
             try:
                 if CLIENT.is_primary:
@@ -140,7 +150,7 @@ class listenTopics:
                 rospy.logerr("Error with MongoDB client")
                 rospy.logerr("An exception occurred:", type(e).__name__,e.args)       
         # Wait the set time
-        rospy.sleep(args['sleep'])
+        # rospy.sleep(args['sleep'])
     
 # Create a file that contains the information for storage
     def createFile(self, dataPath: bson, content: bson):

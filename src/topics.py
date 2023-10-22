@@ -145,11 +145,11 @@ TOPICS = [
         'sleep'   : 0.2
     },
     # /camera/realsense/color/image_raw
-    {
-        'topic'   : '/camera/realsense/color/image_raw',
-        'msg'     : Image,
-        'sleep'   : 0.2
-    },
+    # {
+    #     'topic'   : '/camera/realsense/color/image_raw',
+    #     'msg'     : Image,
+    #     'sleep'   : 0.2
+    # },
     # /camera/realsense/color/image_raw/compressed
     {
         'topic'   : '/camera/realsense/color/image_raw/compressed',
@@ -210,18 +210,19 @@ TOPICS = [
         'msg'     : CameraInfo,
         'sleep'   : 0.2
     },
+
     # /camera/realsense/depth/color/points
-    {
-        'topic'   : '/camera/realsense/depth/color/points',
-        'msg'     : PointCloud2,
-        'sleep'   : 0.2
-    },
+    # {
+    #     'topic'   : '/camera/realsense/depth/color/points',
+    #     'msg'     : PointCloud2,
+    #     'sleep'   : 0.2
+    # },
     # /camera/realsense/depth/image_rect_raw
-    {
-        'topic'   : '/camera/realsense/depth/image_rect_raw',
-        'msg'     : Image,
-        'sleep'   : 0.2
-    },
+    # {
+    #     'topic'   : '/camera/realsense/depth/image_rect_raw',
+    #     'msg'     : Image,
+    #     'sleep'   : 0.2
+    # },
     # /camera/realsense/parameter_descriptions
     {
         'topic'   : '/camera/realsense/parameter_descriptions',
@@ -409,11 +410,11 @@ TOPICS = [
         'sleep'   : 0.2
     },
     # /lidar/particle_cloud
-    {
-        'topic'   : '/lidar/particle_cloud',
-        'msg'     : PointCloud2,
-        'sleep'   : 0.2
-    },
+    # {
+    #     'topic'   : '/lidar/particle_cloud',
+    #     'msg'     : PointCloud2,
+    #     'sleep'   : 0.2
+    # },
     ## File oversize
     # /map
     # {
@@ -434,11 +435,11 @@ TOPICS = [
         'sleep'   : 0.2
     },
     # /move_base/DWAPlannerROS/cost_cloud
-    {
-        'topic'   : '/move_base/DWAPlannerROS/cost_cloud',
-        'msg'     : PointCloud2,
-        'sleep'   : 0.2
-    },
+    # {
+    #     'topic'   : '/move_base/DWAPlannerROS/cost_cloud',
+    #     'msg'     : PointCloud2,
+    #     'sleep'   : 0.2
+    # },
     # /move_base/DWAPlannerROS/global_plan
     {
         'topic'   : '/move_base/DWAPlannerROS/global_plan',
@@ -464,11 +465,11 @@ TOPICS = [
         'sleep'   : 0.2
     },
     # /move_base/DWAPlannerROS/trajectory_cloud
-    {
-        'topic'   : '/move_base/DWAPlannerROS/trajectory_cloud',
-        'msg'     : PointCloud2,
-        'sleep'   : 0.2
-    },
+    # {
+    #     'topic'   : '/move_base/DWAPlannerROS/trajectory_cloud',
+    #     'msg'     : PointCloud2,
+    #     'sleep'   : 0.2
+    # },
     # /move_base/GraphPlanner/expand
     {
         'topic'   : '/move_base/GraphPlanner/expand',
