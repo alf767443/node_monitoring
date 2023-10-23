@@ -49,7 +49,7 @@ class listenTopics:
                     'callback': None,                   # No callback function
                     'dataPath': {
                         'dataSource': DATASOURCE,       # Add DATASOURCE of config.py
-                        'dataBase'  : DATALAKE,         # Add DATALAKE of config.py
+                        'dataBase'  : DATALAKE + rospy.get_param(param_name='~sim', default=''),         # Add DATALAKE of config.py
                         'collection': topic['topic']      # Collection name is the same of of topic name
                     }
                 }
@@ -204,6 +204,10 @@ class listenTopics:
             if not isinstance(content, list):
                 content = [content]
             return CLIENT[dataPath['dataBase']][dataPath['collection']].insert_many(content).acknowledged
+        except pymongo_erros.DocumentTooLarge:
+            rospy.logwarn(f"The message from {dataPath['collection']} is too large to store.")
+            raise(pymongo_erros.DocumentTooLarge)
+            return True
         except pymongo_erros.DuplicateKeyError:
             # If the register duplicate
             return True
